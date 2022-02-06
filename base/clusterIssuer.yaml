@@ -1,0 +1,11 @@
+#
+# This will issue a certificate to a service when referenced in a service yaml file
+# https://tanzu.vmware.com/developer/blog/securely-connect-with-your-local-kubernetes-environment
+#
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: ca-issuer
+spec:
+  ca:
+    secretName: default-svc-cluster-local

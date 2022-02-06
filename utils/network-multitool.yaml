@@ -1,0 +1,39 @@
+#
+# A utility pod to ensure that curl, openssl etc are available for troubleshooting
+# https://github.com/Praqma/Network-MultiTool
+#
+kind: DaemonSet
+apiVersion: apps/v1
+metadata:
+  name: network-multitool
+  labels:
+    tier: node
+    app: network-multitool
+spec:
+  selector:
+    matchLabels:
+      tier: node
+      app: network-multitool
+  template:
+    metadata:
+      labels:
+        tier: node
+        app: network-multitool
+    spec:
+      containers:
+      - name: network-multitool
+        image: praqma/network-multitool
+        env:
+        - name: HTTP_PORT
+          value: "1180"
+        - name: HTTPS_PORT
+          value: "11443"
+        ports:
+        - containerPort: 1180
+          name: http-port
+        - containerPort: 11443
+          name: https-port
+        securityContext:
+          runAsUser: 0
+          capabilities:
+            add: ["NET_ADMIN"]

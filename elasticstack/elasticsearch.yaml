@@ -1,0 +1,77 @@
+#
+# The Kubernetes resources for the core Elasticsearch service
+#
+kind: Certificate
+apiVersion: cert-manager.io/v1
+metadata:
+  name: elasticsearch-cert
+spec:
+  secretName: elasticsearch-pkcs12
+  issuerRef:
+    name: ca-issuer
+    kind: Issuer
+  commonName: elasticsearch-svc.default.svc
+  dnsNames:
+  - elasticsearch-svc
+  - elasticsearch-svc.default.svc
+  - elasticsearch-svc.default.svc.cluster.local
+  keystores:
+    pkcs12:
+      create: true
+      passwordSecretRef:
+        name: elasticsearch-pkcs12-password
+        key: password
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: elasticsearch
+  labels:
+    app: elasticsearch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      containers:
+      - name: elasticsearch
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+        env:
+          - name: discovery.type
+            value: 'single-node'
+          - name: xpack.security.enabled
+            value: 'true'
+          - name: xpack.security.http.ssl.enabled
+            value: 'true'
+          - name: xpack.security.http.ssl.keystore.path
+            value: '/usr/share/elasticsearch/config/certs/keystore.p12'
+          - name: xpack.security.http.ssl.keystore.password
+            value: 'Password1'
+          - name: xpack.security.http.ssl.certificate_authorities
+            value: '/usr/share/elasticsearch/config/certs/ca.crt'
+          - name: ELASTIC_PASSWORD
+            value: 'Password1'
+        volumeMounts:
+          - name: elasticsearch-ssl-cert
+            mountPath: /usr/share/elasticsearch/config/certs
+            readOnly: true
+      volumes:
+        - name: elasticsearch-ssl-cert
+          secret:
+            secretName: elasticsearch-pkcs12
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: elasticsearch-svc
+spec:
+  selector:
+    app: elasticsearch
+  ports:
+    - protocol: "TCP"
+      port: 9200
