@@ -25,9 +25,3 @@ services:
       trusted_web_origins:
       - https://web.mycompany.com
       cors_enabled: true
-      cors_allow_headers:
-      - x-mycompany-csrf
-      - x-mycompany-api-client
-      - x-mycompany-correlation-id
-      - x-mycompany-session-id
-      - x-mycompany-test-exception
