@@ -12,6 +12,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 #
 # Tear down the cluster if it exists already, then create it
 #
+echo 'Creating the Kubernetes cluster ...'
 kind delete cluster --name=oauth
 kind create cluster --name=oauth --config=base/cluster.yaml
 if [ $? -ne 0 ]; then
@@ -30,15 +31,18 @@ fi
 
 #
 # Install Calico as the Container Networking Interface
-#
+#e
+echo 'Installing networking components ...'
 kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
 if [ $? -ne 0 ]; then
   echo "*** Problem encountered deploying Calico networking"
   exit 1
 fi
 
+#
 # Deploy ingress so that components can be exposed from the cluster over port 443 to the development computer
 #
+echo 'Installing ingress components ...'
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 if [ $? -ne 0 ]; then
   echo "*** Problem encountered deploying ingress resources"
@@ -46,12 +50,13 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Wait for ingress to complete installing
+# Wait for the network setup to complete, which involves some large downloads
 #
+echo 'Waiting up to 15 minutes for networking setup to complete ...'
 kubectl wait --namespace ingress-nginx \
 --for=condition=ready pod \
 --selector=app.kubernetes.io/component=controller \
---timeout=90s
+--timeout=900s
 
 #
 # Deploy a utility POD for troubleshooting

@@ -22,5 +22,5 @@ nodes:
 - role: worker
 - role: worker
 networking:
-  # We will use Cilium for advanced networking capabilities, such as network policies
+  # We will use Calico for advanced networking capabilities, and use its default subnet
   disableDefaultCNI: true

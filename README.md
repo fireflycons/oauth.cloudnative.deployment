@@ -69,7 +69,7 @@ Update the hosts file with these development domain names:
 :1        localhost
 ```
 
-Then trust the root certificate authority at `certs\mycompany.ca.pem`.\
+Then trust the root certificate authority at `certs\mycompany.ca.pem` on the local computer.\
 This is done by adding it to the macOS system keychain or Windows local computer certificate store.
 
 ## Use the System
@@ -105,6 +105,26 @@ NAME                  STATUS   ROLES                  AGE   VERSION
 oauth-control-plane   Ready    control-plane,master   15m   v1.21.1
 oauth-worker          Ready    <none>                 15m   v1.21.1
 oauth-worker2         Ready    <none>                 15m   v1.21.1
+```
+
+View the installed networking components in the `kube-system` namespace:
+
+```text
+kubectl get pods -o wide -n kube-system
+
+pod/calico-kube-controllers-958545d87-6hrq7       1/1     Running   0          5m38s
+pod/calico-node-4j5cx                             1/1     Running   0          5m38s
+pod/calico-node-fgvd4                             1/1     Running   0          5m38s
+pod/calico-node-q4jr4                             1/1     Running   0          5m38s
+pod/coredns-558bd4d5db-9r4tc                      1/1     Running   0          5m58s
+pod/coredns-558bd4d5db-xzbq4                      1/1     Running   0          5m58s
+pod/etcd-oauth-control-plane                      1/1     Running   0          6m2s
+pod/kube-apiserver-oauth-control-plane            1/1     Running   0          6m2s
+pod/kube-controller-manager-oauth-control-plane   1/1     Running   0          6m2s
+pod/kube-proxy-2v9m6                              1/1     Running   0          5m58s
+pod/kube-proxy-9q577                              1/1     Running   0          5m49s
+pod/kube-proxy-fx9lk                              1/1     Running   0          5m48s
+pod/kube-scheduler-oauth-control-plane            1/1     Running   0          6m12s
 ```
 
 Each worker node hosts application containers within a `deployed` namespace:
