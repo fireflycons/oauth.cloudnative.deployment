@@ -112,19 +112,19 @@ View the installed networking components in the `kube-system` namespace:
 ```text
 kubectl get pods -o wide -n kube-system
 
-pod/calico-kube-controllers-958545d87-6hrq7       1/1     Running   0          5m38s
-pod/calico-node-4j5cx                             1/1     Running   0          5m38s
-pod/calico-node-fgvd4                             1/1     Running   0          5m38s
-pod/calico-node-q4jr4                             1/1     Running   0          5m38s
-pod/coredns-558bd4d5db-9r4tc                      1/1     Running   0          5m58s
-pod/coredns-558bd4d5db-xzbq4                      1/1     Running   0          5m58s
-pod/etcd-oauth-control-plane                      1/1     Running   0          6m2s
-pod/kube-apiserver-oauth-control-plane            1/1     Running   0          6m2s
-pod/kube-controller-manager-oauth-control-plane   1/1     Running   0          6m2s
-pod/kube-proxy-2v9m6                              1/1     Running   0          5m58s
-pod/kube-proxy-9q577                              1/1     Running   0          5m49s
-pod/kube-proxy-fx9lk                              1/1     Running   0          5m48s
-pod/kube-scheduler-oauth-control-plane            1/1     Running   0          6m12s
+calico-kube-controllers-958545d87-2rxkl       1/1     Running   0          11m   10.244.185.66   oauth-worker2
+calico-node-5xfmp                             1/1     Running   0          11m   172.29.0.3      oauth-worker
+calico-node-bh9cv                             1/1     Running   0          11m   172.29.0.4      oauth-worker2
+calico-node-rs6v4                             1/1     Running   0          11m   172.29.0.2      oauth-control-plane
+coredns-558bd4d5db-9lsdb                      1/1     Running   0          11m   10.244.161.66   oauth-worker
+coredns-558bd4d5db-dvjjj                      1/1     Running   0          11m   10.244.185.67   oauth-worker2
+etcd-oauth-control-plane                      1/1     Running   0          11m   172.29.0.2      oauth-control-plane
+kube-apiserver-oauth-control-plane            1/1     Running   0          11m   172.29.0.2      oauth-control-plane
+kube-controller-manager-oauth-control-plane   1/1     Running   1          11m   172.29.0.2      oauth-control-plane
+kube-proxy-22gkp                              1/1     Running   0          11m   172.29.0.2      oauth-control-plane
+kube-proxy-g8qht                              1/1     Running   0          11m   172.29.0.3      oauth-worker
+kube-proxy-xv2nw                              1/1     Running   0          11m   172.29.0.4      oauth-worker2
+kube-scheduler-oauth-control-plane            1/1     Running   1          11m   172.29.0.2      oauth-control-plane
 ```
 
 Each worker node hosts application containers within a `deployed` namespace:
