@@ -29,25 +29,14 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Install Cilium as the Container Networking Interface
+# Install Calico as the Container Networking Interface
 #
-helm repo add cilium https://helm.cilium.io
-helm install cilium cilium/cilium --version 1.11.0 -n kube-system \
---set nodeinit.enabled=true \
---set kubeProxyReplacement=partial \
---set hostServices.enabled=false \
---set externalIPs.enabled=true \
---set nodePort.enabled=true \
---set hostPort.enabled=true \
---set bpf.masquerade=false \
---set image.pullPolicy=IfNotPresent \
---set ipam.mode=kubernetes
+kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
 if [ $? -ne 0 ]; then
-  echo '*** Problem encountered installing Cilium networking'
+  echo "*** Problem encountered deploying Calico networking"
   exit 1
 fi
 
-#
 # Deploy ingress so that components can be exposed from the cluster over port 443 to the development computer
 #
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
