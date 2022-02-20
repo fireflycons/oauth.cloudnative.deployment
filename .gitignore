@@ -5,3 +5,5 @@ finalapi
 tokenhandler
 oauth-proxy-plugin
 finalapi-scripts/api.config.json
+node_modules/
+
