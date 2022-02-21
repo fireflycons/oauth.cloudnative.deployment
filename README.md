@@ -17,10 +17,11 @@ Scripts will spin up a number of components for the Final SPA, and these externa
 
 ## Prerequisites
 
-- Install [Docker Desktop](https://www.docker.com/products/docker-desktop) and [Kubernetes in Docker](https://kind.sigs.k8s.io/docs/user/quick-start/)
+- Install the Docker Engine, eg [Docker Desktop](https://www.docker.com/products/docker-desktop) for macOS / Windows
+- Install [Kubernetes in Docker](https://kind.sigs.k8s.io/docs/user/quick-start/)
 - Configure the Docker Engine to use 16GB of RAM and 4 CPUs
 - Also ensure that the `openssl`, `curl` and `jq` tools are installed
-- Scripts should be run from either a macOS terminal or from a Windows Git Bash shell
+- Scripts should be run a Linux terminal or from a Git Bash shell on Windows
 
 ## Deploy the System
 
@@ -72,8 +73,7 @@ Update the hosts file with these development domain names:
 Then trust the root certificate authority at `certs\mycompany.ca.pem` on the local computer.\
 This is done by adding it to the macOS system keychain or Windows local computer certificate store.
 
-On Linux, how this is done depends on your distro, and its age. First, copy the above certificate to one of the following directories, changing its extension to `.crt` as you do it. For RHEL, this includes compatibles such as Fedora, CentOS and Amazon Linux
-
+When using Linux as the host computer, how this is done depends on your distro, and its age. First, copy the above certificate to one of the following directories, changing its extension to `.crt` as you do it. For RHEL, this includes compatibles such as Fedora, CentOS and Amazon Linux.
 
 | Distro | Directory|
 |--------|----------|
