@@ -65,12 +65,26 @@ Later you can free all resources when required via this script:
 Update the hosts file with these development domain names:
 
 ```text
-127.0.0.1 localhost web.mycompany.com api.mycompany.com
+127.0.0.1 localhost web.mycompany.com api.mycompany.com logs.mycompany.com
 :1        localhost
 ```
 
 Then trust the root certificate authority at `certs\mycompany.ca.pem` on the local computer.\
 This is done by adding it to the macOS system keychain or Windows local computer certificate store.
+
+On Linux, how this is done depends on your distro, and its age. First, copy the above certificate to one of the following directories, changing its extension to `.crt` as you do it. For RHEL, this includes compatibles such as Fedora, CentOS and Amazon Linux
+
+
+| Distro | Directory|
+|--------|----------|
+| RHEL  < 7 | `/usr/local/share/ca-certificates` |
+| RHEL >= 7 | `/etc/pki/ca-trust/source/anchors` |
+| Debian/Ubuntu | `/usr/local/share/ca-certificates` |
+
+You will then need to use your package manager to install the `ca-certificates` package, and execute the following as root to install the cert:
+
+* RHEL - `update-ca-trust`
+* Debian - `update-ca-certificates`
 
 ## Use the System
 
@@ -132,16 +146,16 @@ Each worker node hosts application containers within a `deployed` namespace:
 ```text
 kubectl get pods -o wide -n deployed
 
-NAME                           READY   STATUS    RESTARTS   AGE   IP           NODE         
-finalapi-77b44bf64-gh646       1/1     Running   0          86s   10.244.1.6   oauth-worker 
+NAME                           READY   STATUS    RESTARTS   AGE   IP           NODE
+finalapi-77b44bf64-gh646       1/1     Running   0          86s   10.244.1.6   oauth-worker
 finalapi-77b44bf64-kqnql       1/1     Running   0          86s   10.244.2.7   oauth-worker2
-kong-proxy-57d5fcd47f-6blc4    1/1     Running   0          83s   10.244.1.8   oauth-worker 
+kong-proxy-57d5fcd47f-6blc4    1/1     Running   0          83s   10.244.1.8   oauth-worker
 network-multitool-9zmcx        1/1     Running   0          13m   10.244.2.3   oauth-worker2
-network-multitool-mf5mn        1/1     Running   0          13m   10.244.1.3   oauth-worker 
-tokenhandler-9fc86d5cc-lhqrs   1/1     Running   0          84s   10.244.1.7   oauth-worker 
+network-multitool-mf5mn        1/1     Running   0          13m   10.244.1.3   oauth-worker
+tokenhandler-9fc86d5cc-lhqrs   1/1     Running   0          84s   10.244.1.7   oauth-worker
 tokenhandler-9fc86d5cc-s8wws   1/1     Running   0          84s   10.244.2.8   oauth-worker2
 webhost-5f76fdcf46-lwsdb       1/1     Running   0          87s   10.244.2.6   oauth-worker2
-webhost-5f76fdcf46-zsxr9       1/1     Running   0          87s   10.244.1.5   oauth-worker 
+webhost-5f76fdcf46-zsxr9       1/1     Running   0          87s   10.244.1.5   oauth-worker
 ```
 
 Each worker node also hosts Elastic Stack containers within an `elasticstack` namespace:
@@ -149,10 +163,10 @@ Each worker node also hosts Elastic Stack containers within an `elasticstack` na
 ```text
 kubectl get pods -o wide -n elasticstack
 
-NAME                             READY   STATUS              RESTARTS   AGE     IP            NODE         
-elasticsearch-67f7d45c6f-khbmp   1/1     Running             0          2m43s   10.244.2.16   oauth-worker 
+NAME                             READY   STATUS              RESTARTS   AGE     IP            NODE
+elasticsearch-67f7d45c6f-khbmp   1/1     Running             0          2m43s   10.244.2.16   oauth-worker
 es-initdata-job-lbnqv            0/1     Completed           0          2m42s   10.244.1.12   oauth-worker2
-filebeat-q5xw8                   1/1     Running             0          2m41s   172.29.0.2    oauth-worker 
+filebeat-q5xw8                   1/1     Running             0          2m41s   172.29.0.2    oauth-worker
 filebeat-skwbs                   1/1     Running             0          2m41s   172.29.0.3    oauth-worker2
-kibana-67fb658898-t2jdb          1/1     Running             0          2m42s   10.244.2.17   oauth-worker 
+kibana-67fb658898-t2jdb          1/1     Running             0          2m42s   10.244.2.17   oauth-worker
 ```
