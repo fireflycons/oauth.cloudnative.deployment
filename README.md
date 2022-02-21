@@ -81,7 +81,7 @@ On Linux, how this is done depends on your distro, and its age. First, copy the 
 | RHEL >= 7 | `/etc/pki/ca-trust/source/anchors` |
 | Debian/Ubuntu | `/usr/local/share/ca-certificates` |
 
-You will then need to use your pakcage manager to install the `ca-certificates` package, and execute the following as root to install the cert:
+You will then need to use your package manager to install the `ca-certificates` package, and execute the following as root to install the cert:
 
 * RHEL - `update-ca-trust`
 * Debian - `update-ca-certificates`
