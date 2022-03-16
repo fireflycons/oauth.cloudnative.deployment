@@ -14,7 +14,7 @@ cd ..
 # Get the tokenhandler API
 #
 rm -rf tokenhandler
-git clone https://github.com/gary-archer/oauth.tokenhandlerapi tokenhandler
+git clone https://github.com/gary-archer/oauth.tokenhandler.docker tokenhandler
 if [ $? -ne 0 ]; then
   echo '*** Token handler download problem encountered'
   exit 1
