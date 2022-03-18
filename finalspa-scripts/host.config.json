@@ -1,14 +1,7 @@
 {
-    "host": {
-        "port": 8101,
-        "sslCertificateFileName": "./certs/keystore.p12",
-        "sslCertificatePassword": "Password1",
-        "mode": "production"
-    },
-    "securityHeaders": {
-        "trustedHosts": [
-            "https://tokenhandler.mycompany.com"
-        ],
-        "enabled": true
-    }
+    "port": 8101,
+    "sslCertificateFileName": "./certs/keystore.p12",
+    "sslCertificatePassword": "Password1",
+    "trustedHosts": ["https://tokenhandler.mycompany.com"],
+    "mode": "production"
 }
