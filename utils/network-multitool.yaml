@@ -1,6 +1,6 @@
 #
 # A utility pod to ensure that curl, openssl etc are available for troubleshooting
-# https://github.com/Praqma/Network-MultiTool
+# https://github.com/wbitt/Network-MultiTool
 #
 kind: DaemonSet
 apiVersion: apps/v1
@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: network-multitool
-        image: praqma/network-multitool
+        image: wbitt/network-multitool
         env:
         - name: HTTP_PORT
           value: "1180"
