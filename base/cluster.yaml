@@ -22,5 +22,6 @@ nodes:
 - role: worker
 - role: worker
 networking:
-  # We will use Calico for advanced networking capabilities
+  # Use Calico for advanced networking capabilities and configure its default subnet
   disableDefaultCNI: true
+  podSubnet: 192.168.0.0/16

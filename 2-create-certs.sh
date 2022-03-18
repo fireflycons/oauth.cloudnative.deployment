@@ -112,7 +112,6 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Indicate success, and show the cert-manager nodes and pods
+# Show the cert-manager nodes and pods
 #
 kubectl get pods -n cert-manager -o wide
-echo 'All certificate resources were created successfully'

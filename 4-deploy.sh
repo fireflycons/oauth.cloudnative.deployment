@@ -42,8 +42,3 @@ fi
 if [ $? -ne 0 ]; then
   exit 1
 fi
-
-#
-# Indicate success
-#
-echo 'All application resources were deployed successfully'

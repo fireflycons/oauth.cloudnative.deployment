@@ -17,4 +17,3 @@ kind delete cluster --name=oauth
 #
 # Indicate success
 #
-echo 'All application resources were deleted successfully'

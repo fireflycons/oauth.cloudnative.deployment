@@ -46,8 +46,3 @@ if [ $? -ne 0 ]; then
 fi
 cd oauth-proxy-plugin/plugin
 mv plugin.lua access.lua
-
-#
-# Indicate success
-#
-echo 'All application resources were built successfully'

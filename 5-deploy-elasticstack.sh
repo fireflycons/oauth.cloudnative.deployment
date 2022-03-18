@@ -117,8 +117,3 @@ if [ $? -ne 0 ]; then
   echo '*** Problem encountered deploying Kibana'
   exit 1
 fi
-
-#
-# Indicate success
-#
-echo 'All Elastic Stack resources were deployed successfully'

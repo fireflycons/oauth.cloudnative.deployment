@@ -40,6 +40,12 @@ if [ $? -ne 0 ]; then
 fi
 
 #
+# Turn off reverse path filtering checks, which does not work in the KIND development system
+# https://alexbrand.dev/post/creating-a-kind-cluster-with-calico-networking/
+#
+kubectl -n kube-system set env daemonset/calico-node FELIX_IGNORELOOSERPF=true
+
+#
 # Deploy ingress so that components can be exposed from the cluster over port 443 to the development computer
 #
 echo 'Installing ingress components ...'
@@ -74,6 +80,6 @@ fi
 kubectl -n deployed rollout status daemonset/network-multitool
 
 #
-# Indicate success
+# Show the kube-system nodes and pods
 #
-echo 'Cluster was created successfully'
+kubectl get pods -n kube-system -o wide
