@@ -10,9 +10,9 @@ Scripts will spin up a number of components for the Final SPA, and these externa
 | Component | External URL | Description |
 | --------- | ------------ | ----------- |
 | Web Host | https://web.mycompany.com/spa | A development host to serve web static content for the SPA |
-| Reverse Proxy | https://api.mycompany.com | The base URL for the reverse proxy that sits in front of APIs |
-| Token Handler | https://api.mycompany.com/tokenhandler | The SPA calls the token handler via the reverse proxy to perform OAuth work |
-| Business API | https://api.mycompany.com/api | The SPA calls the business API via the reverse proxy to get data |
+| Reverse Proxy | https://tokenhandler.mycompany.com | The base URL for the reverse proxy that sits in front of APIs |
+| OAuth Agent | https://tokenhandler.mycompany.com/oauth-agent | The SPA calls the OAuth Agent via the reverse proxy to perform OAuth work |
+| Business API | https://tokenhandler.mycompany.com/api | The SPA calls the business API via the reverse proxy to get data |
 | Log Query UI | https://logs.mycompany.com/app/dev_tools#/console | The Kibana UI used to analyze technical support logs |
 
 ## Prerequisites
@@ -66,7 +66,7 @@ Later you can free all resources when required via this script:
 Update the hosts file with these development domain names:
 
 ```text
-127.0.0.1 localhost web.mycompany.com api.mycompany.com logs.mycompany.com
+127.0.0.1 localhost web.mycompany.com tokenhandler.mycompany.com logs.mycompany.com
 :1        localhost
 ```
 
@@ -152,8 +152,8 @@ finalapi-77b44bf64-kqnql       1/1     Running   0          86s   10.244.2.7   o
 kong-proxy-57d5fcd47f-6blc4    1/1     Running   0          83s   10.244.1.8   oauth-worker
 network-multitool-9zmcx        1/1     Running   0          13m   10.244.2.3   oauth-worker2
 network-multitool-mf5mn        1/1     Running   0          13m   10.244.1.3   oauth-worker
-tokenhandler-9fc86d5cc-lhqrs   1/1     Running   0          84s   10.244.1.7   oauth-worker
-tokenhandler-9fc86d5cc-s8wws   1/1     Running   0          84s   10.244.2.8   oauth-worker2
+oauthagent-9fc86d5cc-lhqrs   1/1     Running   0          84s   10.244.1.7   oauth-worker
+oauthagent-9fc86d5cc-s8wws   1/1     Running   0          84s   10.244.2.8   oauth-worker2
 webhost-5f76fdcf46-lwsdb       1/1     Running   0          87s   10.244.2.6   oauth-worker2
 webhost-5f76fdcf46-zsxr9       1/1     Running   0          87s   10.244.1.5   oauth-worker
 ```

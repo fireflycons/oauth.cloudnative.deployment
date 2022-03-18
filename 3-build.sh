@@ -30,7 +30,7 @@ fi
 #
 # Build the token handler
 #
-./tokenhandler-scripts/build.sh
+./oauth-agent-scripts/build.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi

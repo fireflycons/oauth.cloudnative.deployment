@@ -7,7 +7,7 @@
     },
     "securityHeaders": {
         "trustedHosts": [
-            "https://api.mycompany.com"
+            "https://tokenhandler.mycompany.com"
         ],
         "enabled": true
     }

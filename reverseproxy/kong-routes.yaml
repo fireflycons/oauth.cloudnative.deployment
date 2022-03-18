@@ -2,15 +2,15 @@ _format_version: '2.1'
 _transform: true
 services:
 
-# The SPA calls https://api.mycompany.com/tokenhandler to perform OAuth requests
-- name: tokenhandler
-  url: https://tokenhandler-svc:8101/tokenhandler
+# The SPA calls https://tokenhandler.mycompany.com/oauth-agent to perform OAuth requests
+- name: oauthagent
+  url: https://oauthagent-svc:8101/oauth-agent
   routes:
-  - name: tokenhandler-api-route
+  - name: oauth-agent-route
     paths:
-    - /tokenhandler
+    - /oauth-agent
 
-  # The SPA calls https://api.mycompany.com/api to access business data
+  # The SPA calls https://tokenhandler.mycompany.com/api to access business data
 - name: finalapi
   url: https://finalapi-svc:8101/api
   routes:

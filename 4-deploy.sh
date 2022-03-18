@@ -30,7 +30,7 @@ fi
 #
 # Deploy the token handler
 #
-./tokenhandler-scripts/deploy.sh
+./oauth-agent-scripts/deploy.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi
