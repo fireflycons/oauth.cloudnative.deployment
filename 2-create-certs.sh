@@ -12,11 +12,14 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 #
 # First download certificates for mycompany.com from the shared repo
 #
-rm -rf certs
-git clone https://github.com/gary-archer/oauth.developmentcertificates certs
+rm -rf resources
+git clone https://github.com/gary-archer/oauth.developmentcertificates resources
 if [ $? -ne 0 ]; then
   exit 1
 fi
+rm -rf certs
+mv ./resources/mycompany ./certs
+rm -rf ./resources
 
 #
 # Create a secret for external URLs

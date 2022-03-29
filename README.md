@@ -23,6 +23,8 @@ Scripts will spin up a number of components for the Final SPA, and these externa
 - Also ensure that the `openssl`, `curl` and `jq` tools are installed
 - Scripts should be run a Linux terminal or from a Git Bash shell on Windows
 
+![Docker Configuration](./doc/docker.png))
+
 ## Deploy the System
 
 First create the cluster:
