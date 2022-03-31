@@ -38,7 +38,7 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Install Calico as the Container Networking Interface
+# Install the Container Networking Interface
 #
 if [ "$NETWORKING_STACK" == 'calico' ]; then
 
