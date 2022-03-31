@@ -22,8 +22,5 @@ nodes:
 - role: worker
 - role: worker
 networking:
-  # We use Calico for advanced networking capabilities
+  # Override to use advanced networking capabilities
   disableDefaultCNI: true
-  
-  # Ensure that this matches the subnet configured for Docker
-  podSubnet: 192.168.0.0/16

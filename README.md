@@ -21,9 +21,7 @@ Scripts will spin up a number of components for the Final SPA, and these externa
 - Install [Kubernetes in Docker](https://kind.sigs.k8s.io/docs/user/quick-start/)
 - Configure the Docker Engine to use 16GB of RAM and 4 CPUs
 - Also ensure that the `openssl`, `curl` and `jq` tools are installed
-- Scripts should be run a Linux terminal or from a Git Bash shell on Windows
-
-![Docker Configuration](./doc/docker.png))
+- Scripts should be run a macOS / Linux terminal or from a Git Bash shell on Windows
 
 ## Deploy the System
 
@@ -72,7 +70,7 @@ Update the hosts file with these development domain names:
 :1        localhost
 ```
 
-Then trust the root certificate authority at `certs\mycompany.ca.pem` on the local computer.\
+Then trust the root certification authority at `certs\mycompany.ca.pem` on the local computer.\
 This is done by adding it to the macOS system keychain or Windows local computer certificate store.
 
 When using Linux as the host computer, how this is done depends on your distro, and its age. First, copy the above certificate to one of the following directories, changing its extension to `.crt` as you do it. For RHEL, this includes compatibles such as Fedora, CentOS and Amazon Linux.
@@ -98,8 +96,6 @@ Then sign in to the Single Page Application with these details:
 | User Name | guestuser@mycompany.com |
 | User Password | GuestPassword1 |
 
-![SPA](./doc/spa.png)
-
 Also sign into Kibana with these details, and run queries from the [Technical Support Analysis](https://authguidance.com/2019/08/02/intelligent-api-platform-analysis/) blog post:
 
 | Field | Value |
@@ -107,8 +103,6 @@ Also sign into Kibana with these details, and run queries from the [Technical Su
 | Kibana URL | https://logs.mycompany.com/app/dev_tools#/console |
 | User Name | elastic |
 | User Password | Password1 |
-
-![Logs](./doc/logs.png)
 
 ## View Kubernetes Resources
 
@@ -154,8 +148,8 @@ finalapi-77b44bf64-kqnql       1/1     Running   0          86s   10.244.2.7   o
 kong-proxy-57d5fcd47f-6blc4    1/1     Running   0          83s   10.244.1.8   oauth-worker
 network-multitool-9zmcx        1/1     Running   0          13m   10.244.2.3   oauth-worker2
 network-multitool-mf5mn        1/1     Running   0          13m   10.244.1.3   oauth-worker
-oauthagent-9fc86d5cc-lhqrs   1/1     Running   0          84s   10.244.1.7   oauth-worker
-oauthagent-9fc86d5cc-s8wws   1/1     Running   0          84s   10.244.2.8   oauth-worker2
+oauthagent-9fc86d5cc-lhqrs     1/1     Running   0          84s   10.244.1.7   oauth-worker
+oauthagent-9fc86d5cc-s8wws     1/1     Running   0          84s   10.244.2.8   oauth-worker2
 webhost-5f76fdcf46-lwsdb       1/1     Running   0          87s   10.244.2.6   oauth-worker2
 webhost-5f76fdcf46-zsxr9       1/1     Running   0          87s   10.244.1.5   oauth-worker
 ```

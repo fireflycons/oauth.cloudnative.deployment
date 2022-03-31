@@ -13,7 +13,3 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 # Delete the cluster
 #
 kind delete cluster --name=oauth
-
-#
-# Indicate success
-#
