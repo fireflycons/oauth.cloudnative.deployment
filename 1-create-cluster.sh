@@ -62,6 +62,7 @@ else
 
   #
   # Do the Cilium install using the Helm chart
+  # https://docs.cilium.io/en/v1.11/gettingstarted/kind/
   #
   echo 'Installing Cilium networking components ...'
   helm repo remove cilium 2>/dev/null
@@ -73,7 +74,16 @@ else
     exit 1
   fi
 
-  helm install cilium cilium/cilium --version 1.11.3 --namespace kube-system
+  helm install cilium cilium/cilium --version 1.11.3 \
+  --namespace kube-system \
+  --set kubeProxyReplacement=partial \
+  --set hostServices.enabled=false \
+  --set externalIPs.enabled=true \
+  --set nodePort.enabled=true \
+  --set hostPort.enabled=true \
+  --set bpf.masquerade=false \
+  --set image.pullPolicy=IfNotPresent \
+  --set ipam.mode=kubernetes
   if [ $? -ne 0 ]; then
     echo "*** Problem encountered deploying Cilium networking"
     exit 1
