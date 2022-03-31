@@ -122,6 +122,7 @@ View the installed networking components in the `kube-system` namespace:
 ```text
 kubectl get pods -o wide -n kube-system
 
+NAME                                          READY   STATUS    RESTARTS   AGE   IP              NODE
 calico-kube-controllers-958545d87-2rxkl       1/1     Running   0          11m   10.244.185.66   oauth-worker2
 calico-node-5xfmp                             1/1     Running   0          11m   172.29.0.3      oauth-worker
 calico-node-bh9cv                             1/1     Running   0          11m   172.29.0.4      oauth-worker2
