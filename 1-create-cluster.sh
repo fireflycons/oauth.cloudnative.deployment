@@ -10,10 +10,18 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 #
+# Use Calico by default, but also support Cilium via a command line argument
+#
+NETWORKING_STACK="$1"
+if [ "$NETWORKING_STACK" != 'cilium' ]; then
+  NETWORKING_STACK='calico'
+fi
+
+#
 # Tear down the cluster if it exists already, then create it
 #
 echo 'Creating the Kubernetes cluster ...'
-kind delete cluster --name=oauth
+kind delete cluster --name=oauth 2>/dev/null
 kind create cluster --name=oauth --config=base/cluster.yaml
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the Kubernetes cluster'
@@ -31,19 +39,46 @@ fi
 
 #
 # Install Calico as the Container Networking Interface
-#e
-echo 'Installing networking components ...'
-kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
-if [ $? -ne 0 ]; then
-  echo "*** Problem encountered deploying Calico networking"
-  exit 1
-fi
+#
+if [ "$NETWORKING_STACK" == 'calico' ]; then
 
-#
-# Turn off reverse path filtering checks, which does not work in the KIND development system
-# https://alexbrand.dev/post/creating-a-kind-cluster-with-calico-networking/
-#
-kubectl -n kube-system set env daemonset/calico-node FELIX_IGNORELOOSERPF=true
+  #
+  # Do the Calico install from the online yaml file
+  #
+  echo 'Installing Calico networking components ...'
+  kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
+  if [ $? -ne 0 ]; then
+    echo "*** Problem encountered deploying Calico networking"
+    exit 1
+  fi
+
+  #
+  # Turn off reverse path filtering checks, which does not work in the KIND development system
+  # https://alexbrand.dev/post/creating-a-kind-cluster-with-calico-networking/
+  #
+  kubectl -n kube-system set env daemonset/calico-node FELIX_IGNORELOOSERPF=true
+
+else
+
+  #
+  # Do the Cilium install using the Helm chart
+  #
+  echo 'Installing Cilium networking components ...'
+  helm repo remove cilium 2>/dev/null
+  helm repo add cilium https://helm.cilium.io/
+
+  docker pull cilium/cilium:v1.11.3
+  if [ $? -ne 0 ]; then
+    echo "*** Problem encountered pulling Cilium Docker image"
+    exit 1
+  fi
+
+  helm install cilium cilium/cilium --version 1.11.3 --namespace kube-system
+  if [ $? -ne 0 ]; then
+    echo "*** Problem encountered deploying Cilium networking"
+    exit 1
+  fi
+fi
 
 #
 # Deploy ingress so that components can be exposed from the cluster over port 443 to the development computer
