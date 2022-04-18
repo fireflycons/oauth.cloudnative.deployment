@@ -75,7 +75,7 @@ if [ "$API_TECH" == 'java' ]; then
   fi
 
   cd finalapi
-  mvn clean install
+  ./gradlew bootJar
   if [ $? -ne 0 ]; then
     echo '*** Java API build problem encountered'
     exit 1
