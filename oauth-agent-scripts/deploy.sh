@@ -21,6 +21,21 @@ if [ $? -ne 0 ]; then
 fi
 
 #
+# Prepare trusted certificates for the container
+#
+cp ../certs/default.svc.cluster.local.ca.pem ./trusted.ca.crt
+
+#
+# Create a configmap for trusted certificates
+#
+kubectl -n deployed delete configmap oauth-agent-ca-cert 2>/dev/null
+kubectl -n deployed create configmap oauth-agent-ca-cert --from-file=./trusted.ca.crt
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered creating the trusted CA configmap'
+  exit 1
+fi
+
+#
 # Create a secret for the private key password of the certificate file cert-manager will create
 #
 kubectl -n deployed delete secret oauthagent-pkcs12-password 2>/dev/null

@@ -34,7 +34,7 @@ spec:
     spec:
       containers:
       - name: kong-proxy
-        image: kong:2.6.0-alpine
+        image: kong:2.8.1-alpine
         env:
         - name: KONG_DATABASE
           value: 'off'

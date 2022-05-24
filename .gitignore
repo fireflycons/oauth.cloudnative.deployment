@@ -1,10 +1,10 @@
 .DS_Store
 resources
 certs
+trusted.ca.pem
 finalspa
 finalapi
 oauth-agent
 oauth-proxy-plugin
 finalapi-scripts/api.config.json
 node_modules/
-
