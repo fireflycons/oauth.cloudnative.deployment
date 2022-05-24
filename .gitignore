@@ -1,7 +1,7 @@
 .DS_Store
 resources
 certs
-trusted.ca.pem
+trusted.ca.crt
 finalspa
 finalapi
 oauth-agent
