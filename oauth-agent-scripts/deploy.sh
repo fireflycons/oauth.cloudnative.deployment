@@ -46,7 +46,7 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Trigger deployment of the token handler to the Kubernetes cluster
+# Trigger deployment of the OAuth Agent to the Kubernetes cluster
 #
 kubectl -n deployed delete -f api.yaml 2>/dev/null
 kubectl -n deployed apply  -f api.yaml

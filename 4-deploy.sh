@@ -28,7 +28,7 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Deploy the token handler
+# Deploy the OAuth Agent
 #
 ./oauth-agent-scripts/deploy.sh
 if [ $? -ne 0 ]; then

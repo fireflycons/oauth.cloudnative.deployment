@@ -28,7 +28,15 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Build the token handler
+# Build the reverse proxy
+#
+./reverseproxy/build.sh
+if [ $? -ne 0 ]; then
+  exit 1
+fi
+
+#
+# Build the OAuth Agent
 #
 ./oauth-agent-scripts/build.sh
 if [ $? -ne 0 ]; then

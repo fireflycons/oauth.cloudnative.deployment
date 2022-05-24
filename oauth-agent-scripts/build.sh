@@ -1,8 +1,8 @@
 #!/bin/bash
 
-####################################################
-# Build the Token Handler's code into a Docker image
-####################################################
+##################################################
+# Build the OAuth Agent's code into a Docker image
+##################################################
 
 #
 # Ensure that we are in the root folder
