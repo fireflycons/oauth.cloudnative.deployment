@@ -1,8 +1,8 @@
 #!/bin/bash
 
-####################################################
-# Build the Token Handler's code into a Docker image
-####################################################
+##################################################
+# Build the OAuth Agent's code into a Docker image
+##################################################
 
 #
 # Ensure that we are in the root folder
@@ -21,6 +21,13 @@ if [ $? -ne 0 ]; then
 fi
 
 #
+# TODO: delete once tested
+#
+cd oauth-agent
+git checkout feature/certdeployment
+cd ..
+
+#
 # Build its code
 #
 cd oauth-agent
@@ -34,7 +41,6 @@ fi
 #
 # Build the Docker container
 #
-cp ../certs/default.svc.cluster.local.ca.pem ./trusted.ca.pem
 docker build --no-cache -f Dockerfile -t oauthagent:v1 .
 if [ $? -ne 0 ]; then
   echo '*** OAuth Agent docker build problem encountered'

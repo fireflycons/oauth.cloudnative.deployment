@@ -34,7 +34,7 @@ spec:
     spec:
       containers:
       - name: kong-proxy
-        image: kong:2.6.0-alpine
+        image: custom_kong:2.8.1-alpine
         env:
         - name: KONG_DATABASE
           value: 'off'
@@ -68,9 +68,6 @@ spec:
           - name: kong-ssl-cert
             mountPath: /etc/secrets/certs
             readOnly: true
-          - name: oauth-proxy-config
-            mountPath: /usr/local/share/lua/5.1/kong/plugins/oauth-proxy
-            readOnly: true
       volumes:
         - name: kong-config
           configMap:
@@ -78,9 +75,6 @@ spec:
         - name: kong-ssl-cert
           secret:
             secretName: kong-ssl-cert
-        - name: oauth-proxy-config
-          configMap:
-            name: oauth-proxy-config
 ---
 kind: Service
 apiVersion: v1

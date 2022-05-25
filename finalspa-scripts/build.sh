@@ -21,6 +21,13 @@ if [ $? -ne 0 ]; then
 fi
 
 #
+# TODO: delete once tested
+#
+cd finalspa
+git checkout feature/certdeployment
+cd ..
+
+#
 # Build Javascript bundles
 #
 cd finalspa/spa
