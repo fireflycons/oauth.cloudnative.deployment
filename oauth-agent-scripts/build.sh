@@ -21,13 +21,6 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# TODO: delete once tested
-#
-cd oauth-agent
-git checkout feature/certdeployment
-cd ..
-
-#
 # Build its code
 #
 cd oauth-agent
