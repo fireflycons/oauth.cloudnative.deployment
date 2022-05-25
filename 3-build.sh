@@ -28,17 +28,17 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Build the reverse proxy
+# Build the OAuth Agent
 #
-./reverseproxy/build.sh
+./oauth-agent-scripts/build.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi
 
 #
-# Build the OAuth Agent
+# Build the reverse proxy
 #
-./oauth-agent-scripts/build.sh
+./reverseproxy/build.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi
