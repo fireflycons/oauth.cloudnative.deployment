@@ -41,7 +41,7 @@ fi
 #
 # Build the Docker container
 #
-docker build --no-cache -f Dockerfile -t oauthagent:v1 .
+docker build --no-cache -f Dockerfile --build-arg TRUSTED_CA_CERTS='../certs/default.svc.cluster.local.ca.pem' -t oauthagent:v1 .
 if [ $? -ne 0 ]; then
   echo '*** OAuth Agent docker build problem encountered'
   exit 1

@@ -85,8 +85,7 @@ fi
 #
 # Build the Docker container
 #
-cp ../certs/default.svc.cluster.local.ca.pem ./trusted.ca.pem
-docker build --no-cache -f Dockerfile -t finalapi:v1 .
+docker build --no-cache -f Dockerfile --build-arg TRUSTED_CA_CERTS='../certs/default.svc.cluster.local.ca.pem' -t finalapi:v1 .
 if [ $? -ne 0 ]; then
   echo '*** API docker build problem encountered'
   exit 1

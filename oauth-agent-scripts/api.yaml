@@ -46,10 +46,6 @@ spec:
             mountPath: /usr/api/api.config.json
             subPath: api.config.json
             readOnly: true
-          - name: oauth-agent-ca-cert
-            mountPath: /usr/local/share/ca-certificates/trusted.ca.crt
-            subPath: trusted.ca.crt
-            readOnly: true
           - name: oauthagent-ssl-cert
             mountPath: /usr/api/certs
             readOnly: true
