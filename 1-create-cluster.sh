@@ -68,13 +68,13 @@ else
   helm repo remove cilium 2>/dev/null
   helm repo add cilium https://helm.cilium.io/
 
-  docker pull cilium/cilium:v1.11.3
+  docker pull cilium/cilium:v1.11.5
   if [ $? -ne 0 ]; then
     echo "*** Problem encountered pulling Cilium Docker image"
     exit 1
   fi
 
-  helm install cilium cilium/cilium --version 1.11.3 \
+  helm install cilium cilium/cilium --version 1.11.5 \
   --namespace kube-system \
   --set kubeProxyReplacement=partial \
   --set hostServices.enabled=false \
