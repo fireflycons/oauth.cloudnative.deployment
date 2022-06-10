@@ -10,6 +10,25 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 #
+# Point to the OpenSSL configuration file for the platform
+#
+case "$(uname -s)" in
+
+  Darwin)
+    export OPENSSL_CONF='/System/Library/OpenSSL/openssl.cnf'
+ 	;;
+
+  MINGW64*)
+    export OPENSSL_CONF='C:/Program Files/Git/usr/ssl/openssl.cnf';
+    export MSYS_NO_PATHCONV=1;
+	;;
+
+  Linux*)
+    export OPENSSL_CONF='/usr/lib/ssl/openssl.cnf';
+	;;
+esac
+
+#
 # First download certificates for mycompany.com from the shared repo
 #
 rm -rf resources
@@ -35,7 +54,7 @@ fi
 #
 # Next deploy certificate manager, used to issue certificates to applications inside the cluster
 #
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.6.1/cert-manager.yaml
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.8.0/cert-manager.yaml
 
 #
 # Wait for cert manager to initialize as described here, so that our root cluster certificate is trusted
@@ -43,23 +62,6 @@ kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.6
 #
 echo 'Waiting for cainjector to inject CA certificates into web hook ...'
 sleep 45
-
-#
-# Point to the OpenSSL configuration file for the platform
-#
-case "$(uname -s)" in
-
-  # Mac OS
-  Darwin)
-    export OPENSSL_CONF='/System/Library/OpenSSL/openssl.cnf'
- 	;;
-
-  # Windows with Git Bash
-  MINGW64*)
-    export OPENSSL_CONF='C:/Program Files/Git/usr/ssl/openssl.cnf';
-    export MSYS_NO_PATHCONV=1;
-	;;
-esac
 
 #
 # Root certificate details for inside the cluster

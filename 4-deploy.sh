@@ -4,12 +4,22 @@
 # This deploys Docker containers needed to run apps into the Kubernetes cluster 
 ###############################################################################
 
-API_TECH='nodejs'
-
 #
 # Ensure that we are in the folder containing this script
 #
 cd "$(dirname "${BASH_SOURCE[0]}")"
+
+#
+# Default to the Node.js API
+#
+API_TECH='$1'
+if [ "$API_TECH" == 'netcore' ]; then
+  API_TECH='netcore'
+elif [ "$API_TECH" == 'java' ]; then
+  API_TECH='java'
+else
+  API_TECH='nodejs'
+fi
 
 #
 # Deploy SPA resources

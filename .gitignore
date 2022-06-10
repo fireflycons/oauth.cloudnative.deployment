@@ -7,3 +7,4 @@ oauth-agent
 oauth-proxy-plugin
 finalapi-scripts/api.config.json
 node_modules/
+calico.yaml

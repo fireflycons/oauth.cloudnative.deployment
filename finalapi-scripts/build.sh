@@ -11,6 +11,23 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 cd ..
 
 #
+# Get the platform
+#
+case "$(uname -s)" in
+
+  Darwin)
+    PLATFORM="MACOS"
+ 	;;
+
+  MINGW64*)
+    PLATFORM="WINDOWS"
+	;;
+  Linux)
+    PLATFORM="LINUX"
+	;;
+esac
+
+#
 # Check for a valid command line parameter
 #
 API_TECH="$1"
@@ -86,6 +103,13 @@ fi
 # Initialize extra trusted certificates to zero
 #
 touch docker/trusted.ca.pem
+
+#
+# On Windows, fix problems with trailing newline characters in Docker scripts
+#
+if [ "$PLATFORM" == 'WINDOWS' ]; then
+  sed -i 's/\r$//' docker/docker-init.sh
+fi
 
 #
 # Build the Docker container
