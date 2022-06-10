@@ -35,7 +35,7 @@ fi
 # curl -k -O https://projectcalico.docs.tigera.io/manifests/calico.yaml
 # 
 # KIND's default for the pod CIDR is 10.244.0.0/16, and Calico's default is 192.168.0.0/16
-# This file has been edited so that Calico also uses 10.244.0.0/16
+# This file has been edited so that Calico uses CALICO_IPV4POOL_CIDR=10.244.0.0/16
 # This prevents outbound DNS problems later, especially on Windows
 # https://github.com/projectcalico/calico/issues/2962#issuecomment-547979845
 #
