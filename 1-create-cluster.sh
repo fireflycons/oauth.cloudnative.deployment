@@ -30,24 +30,16 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Download the Calico advanced networking stack's yaml resources
-# This currently works well on development computers across the 3 platforms
-#
-rm ./calico.yaml
-curl -k -O https://projectcalico.docs.tigera.io/manifests/calico.yaml
-if [ $? -ne 0 ]; then
-  echo '*** Problem encountered downloading calico.yaml'
-  exit 1
-fi
-  
-#
+# Install Calico for advanced networking capabilities
+# This works on development computers across the 3 platforms
+# curl -k -O https://projectcalico.docs.tigera.io/manifests/calico.yaml
+# 
 # KIND's default for the pod CIDR is 10.244.0.0/16, and Calico's default is 192.168.0.0/16
-# Ensure that they match, to prevent outbound DNS problems later, especially on Windows
+# This file has been edited so that Calico also uses 10.244.0.0/16
+# This prevents outbound DNS problems later, especially on Windows
 # https://github.com/projectcalico/calico/issues/2962#issuecomment-547979845
 #
-sed -i 's,192.168.0.0/16,10.244.0.0/16,' ./calico.yaml
-echo 'Installing Calico networking components ...'
-kubectl apply -f ./calico.yaml
+kubectl apply -f base/calico.yaml
 if [ $? -ne 0 ]; then
   echo "*** Problem encountered deploying Calico networking"
   exit 1
