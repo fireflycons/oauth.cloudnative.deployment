@@ -31,15 +31,8 @@ fi
 
 #
 # Install Calico for advanced networking capabilities
-# This works on development computers across the 3 platforms
-# curl -k -O https://projectcalico.docs.tigera.io/manifests/calico.yaml
-# 
-# KIND's default for the pod CIDR is 10.244.0.0/16, and Calico's default is 192.168.0.0/16
-# This file has been edited so that Calico uses CALICO_IPV4POOL_CIDR=10.244.0.0/16
-# This prevents outbound DNS problems later, especially on Windows
-# https://github.com/projectcalico/calico/issues/2962#issuecomment-547979845
 #
-kubectl apply -f base/calico.yaml
+kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
 if [ $? -ne 0 ]; then
   echo "*** Problem encountered deploying Calico networking"
   exit 1
