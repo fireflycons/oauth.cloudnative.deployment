@@ -11,6 +11,23 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 cd ..
 
 #
+# Get the platform
+#
+case "$(uname -s)" in
+
+  Darwin)
+    PLATFORM="MACOS"
+ 	;;
+
+  MINGW64*)
+    PLATFORM="WINDOWS"
+	;;
+  Linux)
+    PLATFORM="LINUX"
+	;;
+esac
+
+#
 # Get the OAuth Agent API
 #
 rm -rf oauth-agent
@@ -35,6 +52,13 @@ fi
 # Initialize extra trusted certificates to zero
 #
 touch docker/trusted.ca.pem
+
+#
+# On Windows, fix problems with trailing newline characters in Docker scripts
+#
+if [ "$PLATFORM" == 'WINDOWS' ]; then
+  sed -i 's/\r$//' docker/docker-init.sh
+fi
 
 #
 # Build the Docker container

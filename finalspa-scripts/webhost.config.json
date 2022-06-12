@@ -3,5 +3,5 @@
     "sslCertificateFileName": "./certs/keystore.p12",
     "sslCertificatePassword": "Password1",
     "trustedHosts": ["https://tokenhandler.mycompany.com"],
-    "mode": "production"
+    "mode": "deployed"
 }

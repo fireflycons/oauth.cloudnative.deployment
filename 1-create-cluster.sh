@@ -1,21 +1,13 @@
 #!/bin/bash
 
-#############################################################################################
-# Base setup for a cluster with 2 virtual machines (nodes), after running 'brew install kind'
-#############################################################################################
+####################################################################
+# Base setup for a cluster with 2 nodes hosting the application pods
+####################################################################
 
 #
 # Ensure that we are in the folder containing this script
 #
 cd "$(dirname "${BASH_SOURCE[0]}")"
-
-#
-# Use Calico by default, but also support Cilium via a command line argument
-#
-NETWORKING_STACK="$1"
-if [ "$NETWORKING_STACK" != 'cilium' ]; then
-  NETWORKING_STACK='calico'
-fi
 
 #
 # Tear down the cluster if it exists already, then create it
@@ -29,66 +21,28 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Create the namespace
+# Create the namespace for application components
 #
-kubectl apply -f base/namespace.yaml
+kubectl apply -f base/application-namespace.yaml
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the Kubernetes namespace'
   exit 1
 fi
 
 #
-# Install the Container Networking Interface
+# Install Calico for advanced networking capabilities
 #
-if [ "$NETWORKING_STACK" == 'calico' ]; then
-
-  #
-  # Do the Calico install from the online yaml file
-  #
-  echo 'Installing Calico networking components ...'
-  kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
-  if [ $? -ne 0 ]; then
-    echo "*** Problem encountered deploying Calico networking"
-    exit 1
-  fi
-
-  #
-  # Turn off reverse path filtering checks, which does not work in the KIND development system
-  # https://alexbrand.dev/post/creating-a-kind-cluster-with-calico-networking/
-  #
-  kubectl -n kube-system set env daemonset/calico-node FELIX_IGNORELOOSERPF=true
-
-else
-
-  #
-  # Do the Cilium install using the Helm chart
-  # https://docs.cilium.io/en/v1.11/gettingstarted/kind/
-  #
-  echo 'Installing Cilium networking components ...'
-  helm repo remove cilium 2>/dev/null
-  helm repo add cilium https://helm.cilium.io/
-
-  docker pull cilium/cilium:v1.11.5
-  if [ $? -ne 0 ]; then
-    echo "*** Problem encountered pulling Cilium Docker image"
-    exit 1
-  fi
-
-  helm install cilium cilium/cilium --version 1.11.5 \
-  --namespace kube-system \
-  --set kubeProxyReplacement=partial \
-  --set hostServices.enabled=false \
-  --set externalIPs.enabled=true \
-  --set nodePort.enabled=true \
-  --set hostPort.enabled=true \
-  --set bpf.masquerade=false \
-  --set image.pullPolicy=IfNotPresent \
-  --set ipam.mode=kubernetes
-  if [ $? -ne 0 ]; then
-    echo "*** Problem encountered deploying Cilium networking"
-    exit 1
-  fi
+kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
+if [ $? -ne 0 ]; then
+  echo "*** Problem encountered deploying Calico networking"
+  exit 1
 fi
+
+#
+# Turn off reverse path filtering checks, which does not work in the KIND development system
+# https://alexbrand.dev/post/creating-a-kind-cluster-with-calico-networking/
+#
+kubectl -n kube-system set env daemonset/calico-node FELIX_IGNORELOOSERPF=true
 
 #
 # Deploy ingress so that components can be exposed from the cluster over port 443 to the development computer

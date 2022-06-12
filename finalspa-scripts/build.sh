@@ -11,7 +11,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 cd ..
 
 #
-# Get the final web sample
+# Get the final SPA
 #
 rm -rf finalspa
 git clone https://github.com/gary-archer/oauth.websample.final finalspa
@@ -46,7 +46,7 @@ fi
 # Build the Docker image
 #
 cd ..
-docker build --no-cache -f webhost/Dockerfile -t webhost:v1 .
+docker build --no-cache -f webhost/docker/Dockerfile -t webhost:v1 .
 if [ $? -ne 0 ]; then
   echo '*** Web Host docker build problem encountered'
   exit 1

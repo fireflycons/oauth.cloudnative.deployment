@@ -4,12 +4,22 @@
 # This builds application ode into Docker containers ready for deploying
 ########################################################################
 
-API_TECH='nodejs'
-
 #
 # Ensure that we are in the folder containing this script
 #
 cd "$(dirname "${BASH_SOURCE[0]}")"
+
+#
+# Default to the Node.js API
+#
+API_TECH='$1'
+if [ "$API_TECH" == 'netcore' ]; then
+  API_TECH='netcore'
+elif [ "$API_TECH" == 'java' ]; then
+  API_TECH='java'
+else
+  API_TECH='nodejs'
+fi
 
 #
 # Build SPA resources

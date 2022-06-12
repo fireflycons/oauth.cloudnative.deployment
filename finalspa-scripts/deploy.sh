@@ -23,7 +23,7 @@ fi
 # Create a configmap for the Web Host's JSON configuration file
 #
 kubectl -n deployed delete configmap webhost-config 2>/dev/null
-kubectl -n deployed create configmap webhost-config --from-file=../finalspa-scripts/host.config.json
+kubectl -n deployed create configmap webhost-config --from-file=../finalspa-scripts/webhost.config.json
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the Web Host configmap'
   exit 1
