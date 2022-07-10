@@ -12,10 +12,10 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 #
 # Deploy SPA resources
 #
-#./finalspa/deployment/kubernetes-local/deploy.sh
-#if [ $? -ne 0 ]; then
-#  exit 1
-#fi
+./finalspa/deployment/kubernetes-local/deploy.sh
+if [ $? -ne 0 ]; then
+  exit 1
+fi
 
 #
 # Deploy the API
@@ -24,8 +24,6 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 if [ $? -ne 0 ]; then
   exit 1
 fi
-echo 'EXITING DEPLOYMENT EARLY'
-exit
 
 #
 # Deploy token handler components
