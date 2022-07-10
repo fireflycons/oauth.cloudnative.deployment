@@ -3,7 +3,5 @@ resources
 certs
 finalspa
 finalapi
-oauth-agent
-oauth-proxy-plugin
-finalapi-scripts/api.config.json
+tokenhandler
 node_modules/

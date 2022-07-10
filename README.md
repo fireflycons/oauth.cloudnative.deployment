@@ -10,9 +10,9 @@ Scripts will spin up a number of components for the Final SPA, and these externa
 | Component | External URL | Description |
 | --------- | ------------ | ----------- |
 | Web Host | https://web.mycompany.com/spa | A development host to serve web static content for the SPA |
-| Reverse Proxy | https://tokenhandler.mycompany.com | The base URL for the reverse proxy that sits in front of APIs |
-| OAuth Agent | https://tokenhandler.mycompany.com/oauth-agent | The SPA calls the OAuth Agent via the reverse proxy to perform OAuth work |
-| Business API | https://tokenhandler.mycompany.com/api | The SPA calls the business API via the reverse proxy to get data |
+| API Gateway | https://tokenhandler.mycompany.com | The base URL for the API gateway that is hosted in front of APIs |
+| OAuth Agent | https://tokenhandler.mycompany.com/oauth-agent | The SPA calls the OAuth Agent via the API gateway to perform OAuth work |
+| Business API | https://tokenhandler.mycompany.com/api | The SPA calls the business API via the API gateway to get data |
 | Log Query UI | https://logs.mycompany.com/app/dev_tools#/console | The Kibana UI used to analyze technical support logs |
 
 ## Prerequisites

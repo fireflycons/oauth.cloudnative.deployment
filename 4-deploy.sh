@@ -10,21 +10,9 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 #
-# Default to the Node.js API
-#
-API_TECH='$1'
-if [ "$API_TECH" == 'netcore' ]; then
-  API_TECH='netcore'
-elif [ "$API_TECH" == 'java' ]; then
-  API_TECH='java'
-else
-  API_TECH='nodejs'
-fi
-
-#
 # Deploy SPA resources
 #
-./finalspa-scripts/deploy.sh
+./finalspa/deployment/kubernetes-local/deploy.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi
@@ -32,23 +20,15 @@ fi
 #
 # Deploy the API
 #
-./finalapi-scripts/deploy.sh "$API_TECH"
+./finalapi/deployment/kubernetes-local/deploy.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi
 
 #
-# Deploy the OAuth Agent
+# Deploy token handler components
 #
-./oauth-agent-scripts/deploy.sh
-if [ $? -ne 0 ]; then
-  exit 1
-fi
-
-#
-# Deploy the reverse proxy
-#
-./reverseproxy/deploy.sh
+./tokenhandler/deployment/kubernetes-local/deploy.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi
