@@ -21,7 +21,6 @@ Scripts will spin up a number of components for the Final SPA, and these externa
 - Install [Kubernetes in Docker](https://kind.sigs.k8s.io/docs/user/quick-start/)
 - Configure the Docker Engine to use 16GB of RAM and 4 CPUs
 - Also ensure that the `openssl`, `curl` and `jq` tools are installed
-- Scripts should be run a macOS / Linux terminal or from a Git Bash shell on Windows
 
 ## Deploy the System
 
