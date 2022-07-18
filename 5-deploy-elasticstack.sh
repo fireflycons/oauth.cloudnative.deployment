@@ -18,8 +18,14 @@ if [ $? -ne 0 ]; then
   echo '*** Elastic Stack download problem encountered'
   exit 1
 fi
-rm -rf elasticstack
+
+#
+# Simplify the local folder structure
+#
+rm -rf ./elasticstack
 mv ./resources/deployment/kubernetes-local ./elasticstack
+cp ./resources/data/elastic/ingestion-pipeline-cloudnative.json ./elasticstack/ingestion-pipeline.json
+cp ./resources/data/elastic/schema.json ./elasticstack/schema.json
 rm -rf ./resources
 
 #
