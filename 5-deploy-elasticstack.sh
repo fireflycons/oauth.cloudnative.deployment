@@ -10,6 +10,16 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 #
+# Get Elastic Stack resources
+#
+rm -rf resources
+git clone https://github.com/gary-archer/logaggregation.elasticsearch elasticstack
+if [ $? -ne 0 ]; then
+  echo '*** Elastic Stack download problem encountered'
+  exit 1
+fi
+
+#
 # Create the namespace for Elastic components
 #
 kubectl -n elasticstack delete -f ./elasticstack/namespace.yaml 2>/dev/null
