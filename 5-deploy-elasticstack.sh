@@ -88,6 +88,37 @@ if [ $? -ne 0 ]; then
 fi
 
 #
+# Create configmaps for JSON files and scripts used by the Elasticsearch init job
+#
+kubectl -n elasticstack delete configmap schema-json 2>/dev/null
+kubectl -n elasticstack create configmap schema-json --from-file=elasticstack/schema.json
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered creating the config map for the Elasticsearch schema data'
+  exit 1
+fi
+
+kubectl -n elasticstack delete configmap ingestion-json 2>/dev/null
+kubectl -n elasticstack create configmap ingestion-json --from-file=elasticstack/ingestion-pipeline.json
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered creating the config map for the Elasticsearch ingestion pipeline data'
+  exit 1
+fi
+
+kubectl -n elasticstack delete configmap wait-script 2>/dev/null
+kubectl -n elasticstack create configmap wait-script --from-file=elasticstack/wait-script.sh
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered creating the config map for the Elasticsearch wait script'
+  exit 1
+fi
+
+kubectl -n elasticstack delete configmap init-script 2>/dev/null
+kubectl -n elasticstack create configmap init-script --from-file=elasticstack/init-script.sh
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered creating the config map for the Elasticsearch init script'
+  exit 1
+fi
+
+#
 # Run a Job to initialize Elasticsearch data once the system is up
 #
 kubectl -n elasticstack delete -f ./elasticstack/elasticsearch-init.yaml 2>/dev/null
