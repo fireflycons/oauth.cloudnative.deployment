@@ -13,11 +13,14 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 # Get Elastic Stack resources
 #
 rm -rf resources
-git clone https://github.com/gary-archer/logaggregation.elasticsearch elasticstack
+git clone https://github.com/gary-archer/logaggregation.elasticsearch resources
 if [ $? -ne 0 ]; then
   echo '*** Elastic Stack download problem encountered'
   exit 1
 fi
+rm -rf elasticstack
+mv ./resources/deployment/kubernetes-local ./elasticstack
+rm -rf ./resources
 
 #
 # Create the namespace for Elastic components
