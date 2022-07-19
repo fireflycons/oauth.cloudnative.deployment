@@ -21,11 +21,11 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Create the namespace for application components
+# Create namespaces for application components and third party components
 #
-kubectl apply -f base/application-namespace.yaml
+kubectl apply -f base/namespaces.yaml
 if [ $? -ne 0 ]; then
-  echo '*** Problem encountered creating the Kubernetes namespace'
+  echo '*** Problem encountered creating Kubernetes namespaces'
   exit 1
 fi
 

@@ -1,0 +1,16 @@
+
+#
+# The namespace for our deployed applications
+#
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: deployed
+---
+#
+# The namespace for our Elastic Stack components
+#
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: elasticstack

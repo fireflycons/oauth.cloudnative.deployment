@@ -41,13 +41,20 @@ mv ./resources/mycompany ./certs
 rm -rf ./resources
 
 #
-# Create a secret for external URLs
+# Create secrets for external URLs
 #
 cd certs
 kubectl -n deployed delete secret mycompany-com-tls 2>/dev/null
 kubectl -n deployed create secret tls mycompany-com-tls --cert=./mycompany.ssl.pem --key=./mycompany.ssl.key
 if [ $? -ne 0 ]; then
-  echo '*** Problem creating ingress SSL wildcard secret'
+  echo '*** Problem creating ingress SSL wildcard secret for the deployed namespace'
+  exit 1
+fi
+
+kubectl -n elasticstack delete secret mycompany-com-tls 2>/dev/null
+kubectl -n elasticstack create secret tls mycompany-com-tls --cert=./mycompany.ssl.pem --key=./mycompany.ssl.key
+if [ $? -ne 0 ]; then
+  echo '*** Problem creating ingress SSL wildcard secret for the elasticstack namespace'
   exit 1
 fi
 
@@ -102,7 +109,14 @@ fi
 kubectl -n deployed delete secret default-svc-cluster-local 2>/dev/null
 kubectl -n deployed create secret tls default-svc-cluster-local --cert=./default.svc.cluster.local.ca.pem --key=./default.svc.cluster.local.ca.key
 if [ $? -ne 0 ]; then
-  echo '*** Problem creating secret for internal SSL Root Authority ***'
+  echo '*** Problem creating deploying a secret for internal SSL Root Authority to the deployed namespace ***'
+  exit 1
+fi
+
+kubectl -n elasticstack delete secret default-svc-cluster-local 2>/dev/null
+kubectl -n elasticstack create secret tls default-svc-cluster-local --cert=./default.svc.cluster.local.ca.pem --key=./default.svc.cluster.local.ca.key
+if [ $? -ne 0 ]; then
+  echo '*** Problem deploying a secret for the internal SSL Root Authority to the elasticstack namespace ***'
   exit 1
 fi
 
@@ -112,7 +126,13 @@ fi
 cd ../base
 kubectl -n deployed apply -f ./clusterIssuer.yaml
 if [ $? -ne 0 ]; then
-  echo '*** Problem creating the cluster issuer'
+  echo '*** Problem deploying the cluster issuer to the deployed namespace'
+  exit 1
+fi
+
+kubectl -n elasticstack apply -f ./clusterIssuer.yaml
+if [ $? -ne 0 ]; then
+  echo '*** Problem creating the cluster issuer to the elasticstack namespace'
   exit 1
 fi
 
