@@ -20,17 +20,7 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Create a secret to deploy the root certificate that filebeat must trust in order to call Elasticsearch over SSL
-#
-kubectl -n elasticstack delete secret filebeat-root-cert 2>/dev/null
-kubectl -n elasticstack create secret generic filebeat-root-cert --from-file=./certs/default.svc.cluster.local.ca.pem
-if [ $? -ne 0 ]; then
-  echo '*** Problem creating Filebeat SSL root CA secret'
-  exit 1
-fi
-
-#
-# Run the deployment
+# Run the deployment of Elastic Stack components
 #
 ./elasticstack/deployment/kubernetes-local/deploy.sh
 if [ $? -ne 0 ]; then
