@@ -1,11 +1,12 @@
 # Cloud Native Deployment
 
 Resources for deploying an End-to-End SPA and API code sample to Kubernetes.\
-The goal is to demonstrate a real world deployed setup on a development computer.
+The goal is to demonstrate a real world cluster on a development computer.
 
 ## External URLs
 
-Scripts will spin up a number of components for the Final SPA, and these URLs will be callable from browsers:
+Scripts will spin up a number of components for the Final SPA, and these URLs will be callable from browsers.\
+The ingress controller receives HTTPS requests for multiple host names and routes to the appropriate services.
 
 | Component | External URL | Description |
 | --------- | ------------ | ----------- |
@@ -21,16 +22,6 @@ Scripts will spin up a number of components for the Final SPA, and these URLs wi
 - [openssl](https://www.openssl.org/)
 - [jq](https://github.com/stedolan/jq)
 - [envsubst](https://github.com/a8m/envsubst)
-
-## Networking
-
-The networking is equivalent to that in a cloud platform, with a load balancer in front of the Kubernetes cluster.\
-The load balancer assigns a static IP address to the ingress controller:
-
-![Cluster Networking](doc/cluster.png)
-
-The ingress controller receives HTTPS requests for multiple host names and routes to services.\
-The ingress controller can also perform jobs such as cookie to token translation.
 
 ## Deploy the System
 
@@ -72,23 +63,17 @@ Later you can free all resources when required via this script:
 
 ## Enable Development URLs
 
-Get the static IP address of the ingress controller, as we would for a cloud platform:
-
-```bash
-kubectl get svc/ingress-nginx-controller -n ingress-nginx -o jsonpath="{.status.loadBalancer.ingress[0].ip}"
-```
-
-If running a Linux host, associate this IP address with these development domain names:
+Look for this line in logs after step 1 above.\
+This will be the loopack URL on macOS and Windows, or a load balancer assigned IP address on Linux:
 
 ```text
-172.29.255.1 web.mycluster.com tokenhandler.mycluster.com logs.mycluster.com
+The cluster's external IP address is 127.0.0.1 ...
 ```
 
-If running a macOS or Windows host, use this IP address instead.\
-This is because we 
+Add it to the hosts file on the local computer, configured against public URLs:
 
 ```text
-127.0.0.1 web.mycluster.com tokenhandler.mycluster.com logs.mycluster.com
+127.0.0.1 web.mycluster.com api.mycluster.com tokenhandler.mycluster.com logs.mycluster.com
 ```
 
 Then trust the root certification authority at `certs\mycluster.ca.pem` on the local computer.\
@@ -104,7 +89,7 @@ Then sign in to the Single Page Application with these details:
 | User Name | guestuser@mycluster.com |
 | User Password | GuestPassword1 |
 
-Also sign into Kibana with these details, and run queries from the [Technical Support Analysis](https://authguidance.com/2019/08/02/intelligent-api-platform-analysis/) blog post:
+To [Query API Logs](https://authguidance.com/2019/08/02/intelligent-api-platform-analysis/), sign into Kibana with these details:
 
 | Field | Value |
 | ---------- | ----- |
@@ -125,7 +110,7 @@ oauth-worker          Ready    <none>                 15m   v1.24.0   172.29.0.2
 oauth-worker2         Ready    <none>                 15m   v1.24.0   172.29.0.3
 ```
 
-Each worker node hosts application containers within a `deployed` namespace:
+The worker nodes host application containers within a `deployed` namespace:
 
 ```text
 kubectl get pods -o wide -n deployed
@@ -142,7 +127,7 @@ webhost-5f76fdcf46-lwsdb       1/1     Running   0          87s   10.244.2.6   o
 webhost-5f76fdcf46-zsxr9       1/1     Running   0          87s   10.244.1.5   oauth-worker
 ```
 
-Each worker node also hosts Elastic Stack containers within an `elasticstack` namespace:
+The worker nodes also host Elastic Stack containers within an `elasticstack` namespace:
 
 ```text
 kubectl get pods -o wide -n elasticstack

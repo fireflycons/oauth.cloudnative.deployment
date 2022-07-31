@@ -13,12 +13,5 @@ nodes:
     nodeRegistration:
       kubeletExtraArgs:
         node-labels: "ingress-ready=true"
-  
-  # On Linux hosts this is not needed, but on macOS and Windows hosts it allows the host computer to call the ingress endpoints directly
-  extraPortMappings:
-  - containerPort: 443
-    hostPort: 443
-    protocol: TCP
-
 - role: worker
 - role: worker
