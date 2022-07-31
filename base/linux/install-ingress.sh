@@ -10,7 +10,7 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 #
-# Install the MetalLB load balancer
+# For Linux we install the MetalLB load balancer
 # There is no point installing this on macOS or Windows since it cannot be called reliably
 # https://www.thehumblelab.com/kind-and-metallb-on-mac/
 #
@@ -56,12 +56,8 @@ fi
 # Run the same Ingress NGINX install that we would use for a cloud platform, where the NGINX controller has a service type of LoadBalancer
 #
 echo 'Installing the Ingress Controller ...'
-helm repo add nginx-stable https://helm.nginx.com/stable 1>/dev/null
-helm uninstall ingress-nginx --namespace ingress-nginx 2>/dev/null
-helm install ingress-nginx nginx-stable/nginx-ingress \
-  --namespace ingress-nginx \
-  --create-namespace \
-  --version 0.14.0 \
+kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml 2>/dev/null
+kubectl apply  -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered running the ingress-nginx Helm Chart'
   exit 1
