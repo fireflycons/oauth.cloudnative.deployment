@@ -21,7 +21,7 @@ The ingress controller receives HTTPS requests for multiple host names and route
 - [Kubernetes in Docker](https://kind.sigs.k8s.io/docs/user/quick-start/)
 - [openssl](https://www.openssl.org/)
 - [jq](https://github.com/stedolan/jq)
-- [envsubst](https://github.com/a8m/envsubst)
+- [envsubst](https://github.com/a8m/envsubst) if installing on a Linux host
 
 ## Deploy the System
 
