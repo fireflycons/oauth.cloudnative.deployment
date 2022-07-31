@@ -31,6 +31,11 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+# TODO: delete after merging
+cd finalspa
+git checkout feature/loadbalancer
+cd ..
+
 ./finalspa/deployment/kubernetes-local/build.sh
 if [ $? -ne 0 ]; then
   echo '*** Final SPA build problem encountered'
@@ -81,6 +86,11 @@ if [ $? -ne 0 ]; then
   echo '*** Token handler download problem encountered'
   exit 1
 fi
+
+# TODO: delete after merging
+cd tokenhandler
+git checkout feature/loadbalancer
+cd ..
 
 ./tokenhandler/deployment/kubernetes-local/build.sh
 if [ $? -ne 0 ]; then
