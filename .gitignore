@@ -1,5 +1,5 @@
 .DS_Store
-metallb-config.xml
+metallb-config.yaml
 deploy-ingress-nginx.yaml
 resources
 certs

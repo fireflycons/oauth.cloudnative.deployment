@@ -10,14 +10,13 @@ Scripts will spin up a number of components for the Final SPA, and these URLs wi
 | Component | External URL | Description |
 | --------- | ------------ | ----------- |
 | Web Host | https://web.mycluster.com/spa | A development host to serve web static content for the SPA |
-| API Gateway | https://tokenhandler.mycluster.com | The base URL for the API gateway that is hosted in front of APIs |
-| OAuth Agent | https://tokenhandler.mycluster.com/oauth-agent | The SPA calls the OAuth Agent via the API gateway to perform OAuth work |
-| Business API | https://api.mycluster.com/api | The public URL of the business API |
-| Log Query UI | https://logs.mycluster.com/app/dev_tools#/console | The Kibana UI used to analyze technical support logs |
+| API Gateway | https://tokenhandler.mycluster.com | An API gateway base URL for the SPA |
+| Business API | https://api.mycluster.com/api | The public base URL for APIs |
+| Log Query UI | https://logs.mycluster.com/app/dev_tools#/console | The Kibana UI used to analyze API logs |
 
 ## Prerequisites
 
-- The Docker Engine, eg [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- A Docker Engine such as [Docker Desktop](https://www.docker.com/products/docker-desktop)
 - [Kubernetes in Docker](https://kind.sigs.k8s.io/docs/user/quick-start/)
 - [openssl](https://www.openssl.org/)
 - [jq](https://github.com/stedolan/jq)
@@ -25,12 +24,12 @@ Scripts will spin up a number of components for the Final SPA, and these URLs wi
 
 ## Networking
 
-The networking is equivalent to that in a cloud system, with the load balancer in front of the Kubernetes cluster.\
+The networking is equivalent to that in a cloud system, with a load balancer in front of the Kubernetes cluster.\
 The load balancer assigns a static IP address to the ingress controller:
 
 ![Cluster Networking](doc/cluster.png)
 
-The ingress controller then receives HTTPS requests for multiple host names and routes to the correct component.\
+The ingress controller receives HTTPS requests for multiple host names and routes to services.\
 The ingress controller can also perform jobs such as cookie to token translation.
 
 ## Deploy the System
