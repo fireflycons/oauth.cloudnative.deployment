@@ -24,7 +24,7 @@ Scripts will spin up a number of components for the Final SPA, and these URLs wi
 
 ## Networking
 
-The networking is equivalent to that in a cloud system, with a load balancer in front of the Kubernetes cluster.\
+The networking is equivalent to that in a cloud platform, with a load balancer in front of the Kubernetes cluster.\
 The load balancer assigns a static IP address to the ingress controller:
 
 ![Cluster Networking](doc/cluster.png)
@@ -72,16 +72,23 @@ Later you can free all resources when required via this script:
 
 ## Enable Development URLs
 
-Get the static IP address of the ingress controller:
+Get the static IP address of the ingress controller, as we would for a cloud platform:
 
 ```bash
 kubectl get svc/ingress-nginx-controller -n ingress-nginx -o jsonpath="{.status.loadBalancer.ingress[0].ip}"
 ```
 
-In the system hosts file, associate the IP address with these development domain names:
+If running a Linux host, associate this IP address with these development domain names:
 
 ```text
 172.29.255.1 web.mycluster.com tokenhandler.mycluster.com logs.mycluster.com
+```
+
+If running a macOS or Windows host, use this IP address instead.\
+This is because we 
+
+```text
+127.0.0.1 web.mycluster.com tokenhandler.mycluster.com logs.mycluster.com
 ```
 
 Then trust the root certification authority at `certs\mycluster.ca.pem` on the local computer.\
