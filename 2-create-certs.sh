@@ -36,14 +36,6 @@ git clone https://github.com/gary-archer/oauth.developmentcertificates resources
 if [ $? -ne 0 ]; then
   exit 1
 fi
-
-#
-# TODO: delete after merge
-#
-cd resources
-git checkout feature/loadbalancer
-cd ..
-
 rm -rf certs
 mv ./resources/mycluster ./certs
 rm -rf ./resources
