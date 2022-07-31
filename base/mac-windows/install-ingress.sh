@@ -1,9 +1,9 @@
 #!/bin/bash
 
-#################################################################################################################
-# Install ingress for a macOS or Windows environment, where it requires special handling to call into the cluster
-# This is because the KIND network is not exposed to the host computer by default
-#################################################################################################################
+###################################################################################################################################
+# Install ingress for a macOS or Windows host, where it requires special handling to call into the cluster without port forwarding
+# Docker Desktop's network is not exposed to the host computer by default, and the next best option is a special Ingress controller
+###################################################################################################################################
 
 #
 # Ensure that we are in the folder containing this script
@@ -11,7 +11,8 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 #
-# Install ingress in a way that is patched for KIND, which allows the host computer to connect directly to the ingress
+# Install ingress in a way that is patched for KIND, when the cluster configuration includes extra port mappings
+# The host computer can then call the ingress directly, though this is a different setup to cloud clusters
 # https://kind.sigs.k8s.io/docs/user/ingress/
 #
 echo 'Installing the Ingress Controller ...'
