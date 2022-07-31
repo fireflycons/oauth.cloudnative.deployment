@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#######################################################################################################
-# Install ingress for a Linux environment, where we can simulate a cloud platform and its load balancer
-#######################################################################################################
+################################################################################################
+# Install ingress for a Linux host, where we can simulate a cloud platform and its load balancer
+################################################################################################
 
 #
 # Ensure that we are in the folder containing this script
