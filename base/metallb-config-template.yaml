@@ -1,0 +1,14 @@
+#
+# A configmap for metallb with IP addresses within the KIND network's range
+#
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config
+data:
+  config: |
+    address-pools:
+    - name: metallb-address-pool
+      protocol: layer2
+      addresses:
+      - $METALLB_IP_RANGE

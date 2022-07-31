@@ -1,4 +1,6 @@
 .DS_Store
+metallb-config.xml
+deploy-ingress-nginx.yaml
 resources
 certs
 finalspa
