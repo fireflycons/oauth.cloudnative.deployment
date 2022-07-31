@@ -75,8 +75,8 @@ Add it to the hosts file on the local computer, configured against public URLs:
 127.0.0.1 web.mycluster.com api.mycluster.com tokenhandler.mycluster.com logs.mycluster.com
 ```
 
-Then trust the root certification authority at `certs\mycluster.ca.pem` on the local computer.\
-This is done by adding it to the local computer's certificate store as explained in [Configuring SSL Trust](https://authguidance.com/developer-ssl-setup#os-ssl-trust).
+Then trust the root certificate at `certs/mycluster.ca.pem` on the local computer.\
+This is done by adding it to the host's certificate store as explained in [Configuring SSL Trust](https://authguidance.com/developer-ssl-setup#os-ssl-trust).
 
 ## Use the System
 
