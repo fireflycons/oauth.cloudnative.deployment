@@ -1,26 +1,27 @@
 # Cloud Native Deployment
 
-Resources for deploying an End-to-End SPA and API code sample to Kubernetes on a development computer.\
-The goal is to enable portable code running in a portable deployment setup and with the best capabilities.
+Resources for deploying an End-to-End SPA and API code sample to Kubernetes.\
+The goal is to demonstrate a real world cluster on a development computer.
 
 ## External URLs
 
-Scripts will spin up a number of components for the Final SPA, and these external URLs will be used:
+Scripts will spin up a number of components for the Final SPA, and these URLs will be callable from browsers.\
+The ingress controller receives HTTPS requests for multiple host names and routes to the appropriate services.
 
 | Component | External URL | Description |
 | --------- | ------------ | ----------- |
-| Web Host | https://web.mycompany.com/spa | A development host to serve web static content for the SPA |
-| API Gateway | https://tokenhandler.mycompany.com | The base URL for the API gateway that is hosted in front of APIs |
-| OAuth Agent | https://tokenhandler.mycompany.com/oauth-agent | The SPA calls the OAuth Agent via the API gateway to perform OAuth work |
-| Business API | https://tokenhandler.mycompany.com/api | The SPA calls the business API via the API gateway to get data |
-| Log Query UI | https://logs.mycompany.com/app/dev_tools#/console | The Kibana UI used to analyze technical support logs |
+| Web Host | https://web.mycluster.com/spa | A development host to serve web static content for the SPA |
+| API Gateway | https://tokenhandler.mycluster.com | An API gateway base URL for the SPA |
+| Business API | https://api.mycluster.com/api | The public base URL for APIs |
+| Log Query UI | https://logs.mycluster.com/app/dev_tools#/console | The Kibana UI used to analyze API logs |
 
 ## Prerequisites
 
-- Install the Docker Engine, eg [Docker Desktop](https://www.docker.com/products/docker-desktop) for macOS / Windows
-- Install [Kubernetes in Docker](https://kind.sigs.k8s.io/docs/user/quick-start/)
-- Configure the Docker Engine to use 16GB of RAM and 4 CPUs
-- Also ensure that the `openssl`, `curl` and `jq` tools are installed
+- A Docker Engine such as [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- [Kubernetes in Docker](https://kind.sigs.k8s.io/docs/user/quick-start/)
+- [openssl](https://www.openssl.org/)
+- [jq](https://github.com/stedolan/jq)
+- [envsubst](https://github.com/a8m/envsubst)
 
 ## Deploy the System
 
@@ -62,28 +63,21 @@ Later you can free all resources when required via this script:
 
 ## Enable Development URLs
 
-Update the hosts file with these development domain names:
+Look for this line in logs after step 1 above.\
+This will be the loopack URL on macOS and Windows, or a load balancer assigned IP address on Linux:
 
 ```text
-127.0.0.1 localhost web.mycompany.com tokenhandler.mycompany.com logs.mycompany.com
-:1        localhost
+The cluster's external IP address is 127.0.0.1 ...
 ```
 
-Then trust the root certification authority at `certs\mycompany.ca.pem` on the local computer.\
-This is done by adding it to the macOS system keychain or Windows local computer certificate store.
+Add it to the hosts file on the local computer, configured against public URLs:
 
-When using Linux as the host computer, how this is done depends on your distro, and its age. First, copy the above certificate to one of the following directories, changing its extension to `.crt` as you do it. For RHEL, this includes compatibles such as Fedora, CentOS and Amazon Linux.
+```text
+127.0.0.1 web.mycluster.com api.mycluster.com tokenhandler.mycluster.com logs.mycluster.com
+```
 
-| Distro | Directory|
-|--------|----------|
-| RHEL  < 7 | `/usr/local/share/ca-certificates` |
-| RHEL >= 7 | `/etc/pki/ca-trust/source/anchors` |
-| Debian/Ubuntu | `/usr/local/share/ca-certificates` |
-
-You will then need to use your package manager to install the `ca-certificates` package, and execute the following as root to install the cert:
-
-* RHEL - `update-ca-trust`
-* Debian - `update-ca-certificates`
+Then trust the root certification authority at `certs\mycluster.ca.pem` on the local computer.\
+This is done by adding it to the local computer's certificate store as explained in [Configuring SSL Trust](https://authguidance.com/developer-ssl-setup#os-ssl-trust).
 
 ## Use the System
 
@@ -91,53 +85,32 @@ Then sign in to the Single Page Application with these details:
 
 | Field | Value |
 | ----- | ----- |
-| SPA URL | https://web.mycompany.com/spa |
-| User Name | guestuser@mycompany.com |
+| SPA URL | https://web.mycluster.com/spa |
+| User Name | guestuser@mycluster.com |
 | User Password | GuestPassword1 |
 
-Also sign into Kibana with these details, and run queries from the [Technical Support Analysis](https://authguidance.com/2019/08/02/intelligent-api-platform-analysis/) blog post:
+To [Query API Logs](https://authguidance.com/2019/08/02/intelligent-api-platform-analysis/), sign into Kibana with these details:
 
 | Field | Value |
 | ---------- | ----- |
-| Kibana URL | https://logs.mycompany.com/app/dev_tools#/console |
+| Kibana URL | https://logs.mycluster.com/app/dev_tools#/console |
 | User Name | elastic |
 | User Password | Password1 |
 
 ## View Kubernetes Resources
 
-The deployment aims for a real world setup for a development computer, with multiple worker nodes:
+The deployment provides multiple worker nodes for hosting applications:
 
 ```text
-kubectl get nodes:
+kubectl get nodes -o wide
 
-NAME                  STATUS   ROLES                  AGE   VERSION
-oauth-control-plane   Ready    control-plane,master   15m   v1.21.1
-oauth-worker          Ready    <none>                 15m   v1.21.1
-oauth-worker2         Ready    <none>                 15m   v1.21.1
+NAME                  STATUS   ROLES                  AGE   VERSION   INTERNAL-IP
+oauth-control-plane   Ready    control-plane,master   15m   v1.24.0   172.29.0.4
+oauth-worker          Ready    <none>                 15m   v1.24.0   172.29.0.2
+oauth-worker2         Ready    <none>                 15m   v1.24.0   172.29.0.3
 ```
 
-View the installed networking components in the `kube-system` namespace:
-
-```text
-kubectl get pods -o wide -n kube-system
-
-NAME                                          READY   STATUS    RESTARTS   AGE   IP              NODE
-calico-kube-controllers-958545d87-2rxkl       1/1     Running   0          11m   10.244.185.66   oauth-worker2
-calico-node-5xfmp                             1/1     Running   0          11m   172.29.0.3      oauth-worker
-calico-node-bh9cv                             1/1     Running   0          11m   172.29.0.4      oauth-worker2
-calico-node-rs6v4                             1/1     Running   0          11m   172.29.0.2      oauth-control-plane
-coredns-558bd4d5db-9lsdb                      1/1     Running   0          11m   10.244.161.66   oauth-worker
-coredns-558bd4d5db-dvjjj                      1/1     Running   0          11m   10.244.185.67   oauth-worker2
-etcd-oauth-control-plane                      1/1     Running   0          11m   172.29.0.2      oauth-control-plane
-kube-apiserver-oauth-control-plane            1/1     Running   0          11m   172.29.0.2      oauth-control-plane
-kube-controller-manager-oauth-control-plane   1/1     Running   1          11m   172.29.0.2      oauth-control-plane
-kube-proxy-22gkp                              1/1     Running   0          11m   172.29.0.2      oauth-control-plane
-kube-proxy-g8qht                              1/1     Running   0          11m   172.29.0.3      oauth-worker
-kube-proxy-xv2nw                              1/1     Running   0          11m   172.29.0.4      oauth-worker2
-kube-scheduler-oauth-control-plane            1/1     Running   1          11m   172.29.0.2      oauth-control-plane
-```
-
-Each worker node hosts application containers within a `deployed` namespace:
+The worker nodes host application containers within a `deployed` namespace:
 
 ```text
 kubectl get pods -o wide -n deployed
@@ -154,7 +127,7 @@ webhost-5f76fdcf46-lwsdb       1/1     Running   0          87s   10.244.2.6   o
 webhost-5f76fdcf46-zsxr9       1/1     Running   0          87s   10.244.1.5   oauth-worker
 ```
 
-Each worker node also hosts Elastic Stack containers within an `elasticstack` namespace:
+The worker nodes also host Elastic Stack containers within an `elasticstack` namespace:
 
 ```text
 kubectl get pods -o wide -n elasticstack

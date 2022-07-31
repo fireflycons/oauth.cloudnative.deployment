@@ -1,26 +1,24 @@
 #
-# The base configuration for a Kubernetes in Docker (KIND) development cluster
+# The base configuration for a macOS or Windows KIND development cluster
 #
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
 - role: control-plane
-  # We can only run the ingress controller on a single node, so use the control plane
+
+  # KIND ingress is only supported on one node so we use the control plane
   kubeadmConfigPatches:
   - |
     kind: InitConfiguration
     nodeRegistration:
       kubeletExtraArgs:
         node-labels: "ingress-ready=true"
+  
+  # On macOS and Windows hosts this allows the host computer to call the ingress endpoints directly
   extraPortMappings:
-  - containerPort: 80
-    hostPort: 80
-    protocol: TCP
   - containerPort: 443
     hostPort: 443
     protocol: TCP
+
 - role: worker
 - role: worker
-networking:
-  # Override to use advanced networking capabilities
-  disableDefaultCNI: true

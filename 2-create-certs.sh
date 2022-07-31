@@ -29,7 +29,7 @@ case "$(uname -s)" in
 esac
 
 #
-# First download certificates for mycompany.com from the shared repo
+# First download certificates for mycluster.com from the shared repo
 #
 rm -rf resources
 git clone https://github.com/gary-archer/oauth.developmentcertificates resources
@@ -37,22 +37,22 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 rm -rf certs
-mv ./resources/mycompany ./certs
+mv ./resources/mycluster ./certs
 rm -rf ./resources
 
 #
 # Create secrets for external URLs
 #
 cd certs
-kubectl -n deployed delete secret mycompany-com-tls 2>/dev/null
-kubectl -n deployed create secret tls mycompany-com-tls --cert=./mycompany.ssl.pem --key=./mycompany.ssl.key
+kubectl -n deployed delete secret mycluster-com-tls 2>/dev/null
+kubectl -n deployed create secret tls mycluster-com-tls --cert=./mycluster.ssl.pem --key=./mycluster.ssl.key
 if [ $? -ne 0 ]; then
   echo '*** Problem creating ingress SSL wildcard secret for the deployed namespace'
   exit 1
 fi
 
-kubectl -n elasticstack delete secret mycompany-com-tls 2>/dev/null
-kubectl -n elasticstack create secret tls mycompany-com-tls --cert=./mycompany.ssl.pem --key=./mycompany.ssl.key
+kubectl -n elasticstack delete secret mycluster-com-tls 2>/dev/null
+kubectl -n elasticstack create secret tls mycluster-com-tls --cert=./mycluster.ssl.pem --key=./mycluster.ssl.key
 if [ $? -ne 0 ]; then
   echo '*** Problem creating ingress SSL wildcard secret for the elasticstack namespace'
   exit 1
@@ -135,8 +135,3 @@ if [ $? -ne 0 ]; then
   echo '*** Problem creating the cluster issuer to the elasticstack namespace'
   exit 1
 fi
-
-#
-# Show the cert-manager nodes and pods
-#
-kubectl get pods -n cert-manager -o wide

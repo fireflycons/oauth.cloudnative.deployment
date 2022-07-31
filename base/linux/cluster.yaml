@@ -1,0 +1,17 @@
+#
+# The base configuration for a Linux KIND development cluster
+#
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+
+  # KIND ingress is only supported on one node so we use the control plane
+  kubeadmConfigPatches:
+  - |
+    kind: InitConfiguration
+    nodeRegistration:
+      kubeletExtraArgs:
+        node-labels: "ingress-ready=true"
+- role: worker
+- role: worker
