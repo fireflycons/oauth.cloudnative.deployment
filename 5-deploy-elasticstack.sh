@@ -19,6 +19,11 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+# TODO: delete after merging
+cd elasticstack
+git checkout feature/kong
+cd ..
+
 #
 # Run the deployment of Elastic Stack components
 #
