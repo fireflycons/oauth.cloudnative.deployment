@@ -1,23 +1,21 @@
-FIX 1: CURRENT SSL PROBLEM
---------------------------
-SSL trust issues calling from OAuth Agent pod to login.authsamples.com
-Do I need to run this when I create the Node.js container for OAuth Agent?
-Also update my Node.js image to a 16.x recent one.
-
-- apt-get install ca-certificates
-
-These work, so there are no SSL trust issues:
-- https://web.mycluster.com
-- https://api.mycluster.com
-- https://tokenhandler.mycluster.com
-
-Then test on Windows
-
-FIX 2: COOKIE SIZE
+FIX 1: COOKIE SIZE
 ------------------
-I then expect to get problems with large cookies and HTTP server limits.
+I get this HTTP server limit problem if I look at Kong Ingress controller logs:
+- upstream sent too big header while reading response header from upstream
+
 Learn how to set these values for the Kong ingress controller.
-I think this will involve creating a custom Docker image:
+
+- KONG_NGINX_PROXY_PROXY_BUFFER_SIZE: '16k'
+- KONG_NGINX_PROXY_PROXY_BUFFERS: '8 16k'
+- KONG_NGINX_PROXY_LARGE_CLIENT_HEADER_BUFFERS: '8 16k'
+
+I think this will involve creating a custom Docker image and running the Helm chart.
+
+- helm repo add kong https://charts.konghq.com
+- helm repo update
+- helm install kong  kong/kong --values helm-values.yaml --namespace kong --create-namespace
+
+Previous code looked like this:
 
 #annotations:
   #  kubernetes.io/ingress.class: 'nginx'
@@ -27,21 +25,11 @@ I think this will involve creating a custom Docker image:
   #  nginx.ingress.kubernetes.io/proxy-buffer-size: '64k'
   #  nginx.ingress.kubernetes.io/proxy-buffers-number: '16'
 
-Then running the Helm Chart and setting the following environment variables:
-
-helm repo add kong https://charts.konghq.com
-helm repo update
-helm install kong  kong/kong --values helm-values.yaml --namespace kong --create-namespace
-
-KONG_NGINX_PROXY_PROXY_BUFFER_SIZE: '16k'
-KONG_NGINX_PROXY_PROXY_BUFFERS: '8 16k'
-KONG_NGINX_PROXY_LARGE_CLIENT_HEADER_BUFFERS: '8 16k'
-
-FIX 3: LUA PLUGINS
+FIX 2: LUA PLUGINS
 ------------------
 I need to set this also:
 
-KONG_PLUGINS: 'bundled,oauth-proxy'
+- KONG_PLUGINS: 'bundled,oauth-proxy'
 
 Then run the OAuth Proxy LUA plugin in the ingress, and get rid of the gateway.
 
