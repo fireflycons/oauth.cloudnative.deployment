@@ -1,0 +1,98 @@
+FIX 1: STRANGE WEB PROBLEM
+--------------------------
+These work, so there are no SSL trust issues:
+- https://web.mycluster.com
+- https://api.mycluster.com
+- https://tokenhandler.mycluster.com
+
+I get the wrong certificate for web domain???
+Then I will get problems with large cookies and HTTP server limits.
+
+FIX 2: COOKIE SIZE
+------------------
+Learn how to set these values for the Kong ingress controller.
+I think this will involve creating a custom Docker image:
+
+#annotations:
+  #  kubernetes.io/ingress.class: 'nginx'
+  #  nginx.ingress.kubernetes.io/secure-backends: 'true'
+  #  nginx.ingress.kubernetes.io/backend-protocol: 'HTTPS'
+  #  nginx.ingress.kubernetes.io/proxy-buffering: 'on'
+  #  nginx.ingress.kubernetes.io/proxy-buffer-size: '64k'
+  #  nginx.ingress.kubernetes.io/proxy-buffers-number: '16'
+
+Then running the Helm Chart and setting the following environment variables:
+
+helm repo add kong https://charts.konghq.com
+helm repo update
+helm install kong  kong/kong --values helm-values.yaml --namespace kong --create-namespace
+
+KONG_NGINX_PROXY_PROXY_BUFFER_SIZE: '16k'
+KONG_NGINX_PROXY_PROXY_BUFFERS: '8 16k'
+KONG_NGINX_PROXY_LARGE_CLIENT_HEADER_BUFFERS: '8 16k'
+
+FIX 3: LUA PLUGINS
+------------------
+I need to set this also:
+
+KONG_PLUGINS: 'bundled,oauth-proxy'
+
+Then run the OAuth Proxy LUA plugin in the ingress, and get rid of the gateway.
+
+SUREN WORK
+----------
+
+    HELM VALUES
+    -----------
+    image:
+      repository: curity/kong-custom
+      tag: "2.8.1-alpine"
+
+    proxy:
+      enabled: true
+      type: LoadBalancer
+
+    ingressController:
+      enabled: true
+      installCRDs: false
+      ingressClass: kong
+      ingressClassAnnotations: {}
+      rbac:
+        create: true
+
+    # Temporary workaround: disable HTTP2 on admin endpoint
+    # https://github.com/Kong/kubernetes-ingress-controller/issues/2435
+    admin:
+      tls:
+        parameters: []
+
+    env:
+      database: "off"
+      LOG_LEVEL: "error"
+      plugins: 'bundled,phantom-token' 
+
+    DOCKERFILE
+    ----------
+    FROM kong:2.8.1-alpine
+
+    # Fetch from luarocks, and set git options if required
+    USER root
+    RUN git config --global url."https://".insteadOf git:// && \
+        git config --global advice.detachedHead false && \
+        luarocks install kong-phantom-token
+
+    USER kong
+
+    CRD
+    ---
+    apiVersion: configuration.konghq.com/v1
+    kind: KongPlugin
+    metadata:
+      name: phantom-token
+    config:
+      introspection_endpoint: http://curity-idsvr-runtime-svc.$idsvr_namespace.svc.cluster.local:8443/oauth/v2/oauth-introspect # k8s cluster internal URL
+      client_id: api-gateway-client
+      client_secret: Password123
+      token_cache_seconds: 900
+      scope: read
+    plugin: phantom-token
