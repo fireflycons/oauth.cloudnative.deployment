@@ -1,15 +1,21 @@
-FIX 1: STRANGE WEB PROBLEM
+FIX 1: CURRENT SSL PROBLEM
 --------------------------
+SSL trust issues calling from OAuth Agent pod to login.authsamples.com
+Do I need to run this when I create the Node.js container for OAuth Agent?
+Also update my Node.js image to a 16.x recent one.
+
+- apt-get install ca-certificates
+
 These work, so there are no SSL trust issues:
 - https://web.mycluster.com
 - https://api.mycluster.com
 - https://tokenhandler.mycluster.com
 
-I get the wrong certificate for web domain???
-Then I will get problems with large cookies and HTTP server limits.
+Then test on Windows
 
 FIX 2: COOKIE SIZE
 ------------------
+I then expect to get problems with large cookies and HTTP server limits.
 Learn how to set these values for the Kong ingress controller.
 I think this will involve creating a custom Docker image:
 
