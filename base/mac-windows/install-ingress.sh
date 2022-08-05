@@ -2,7 +2,7 @@
 
 ###################################################################################################################################
 # Install ingress for a macOS or Windows host, where it requires special handling to call into the cluster without port forwarding
-# Docker Desktop's network is not exposed to the host computer by default, and the next best option is a special Ingress controller
+# Docker Desktop's network is not exposed to the host computer by default, and the next best option is a patched Ingress controller
 ###################################################################################################################################
 
 #
@@ -11,26 +11,26 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 #
-# Install ingress in a way that is patched for KIND, when the cluster configuration includes extra port mappings
-# The host computer can then call the ingress directly, though this is a different setup to cloud clusters
-# https://kind.sigs.k8s.io/docs/user/ingress/
+# Install the Kong open source ingress controller with no database dependencies
 #
-echo 'Installing the Ingress Controller ...'
-kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml 2>/dev/null
-kubectl apply  -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+echo 'Installing ingress resources ...'
+kubectl delete -f https://raw.githubusercontent.com/Kong/kubernetes-ingress-controller/master/deploy/single/all-in-one-dbless.yaml 2>/dev/null
+kubectl apply  -f https://raw.githubusercontent.com/Kong/kubernetes-ingress-controller/master/deploy/single/all-in-one-dbless.yaml
 if [ $? -ne 0 ]; then
-  echo '*** Problem encountered installing NGINX ingress resources'
+  echo '*** Problem encountered installing ingress resources'
   exit 1
 fi
 
 #
-# Wait for the Ingress resources to be created
+# Apply KIND specific patches, so that extraPortMappings allow the host computer to call the Ingress directly
+# https://kind.sigs.k8s.io/docs/user/ingress/
 #
-echo 'Waiting for the Ingress Controller to become available ...'
-kubectl wait --namespace ingress-nginx \
---for=condition=ready pod \
---selector=app.kubernetes.io/component=controller \
---timeout=300s
+#
+kubectl patch deployment -n kong ingress-kong --patch-file ../kong-kind-patches.json
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered applying KIND specific patches for the ingress controller'
+  exit 1
+fi
 
 #
 # Indicate the 'external' IP address used to call into the cluster
