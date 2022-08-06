@@ -53,27 +53,24 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Run the same Ingress NGINX install that we would use for a cloud platform, where the NGINX controller has a service type of LoadBalancer
+# Install a customized Kong ingress controller
 #
-echo 'Installing the Ingress Controller ...'
-kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml 2>/dev/null
-kubectl apply  -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+../kong/install-kong.sh
 if [ $? -ne 0 ]; then
-  echo '*** Problem encountered running the ingress-nginx Helm Chart'
+  echo '*** Problem encountered installing Kong ingress'
   exit 1
 fi
 
 #
 # Wait for the Ingress resources to be created
 #
-echo 'Waiting for the Ingress Controller to become available ...'
-kubectl wait --namespace ingress-nginx \
+kubectl wait --namespace kong \
 --for=condition=ready pod \
---selector=app.kubernetes.io/component=controller \
+--selector=app.kubernetes.io/component=app \
 --timeout=300s
 
 #
 # Indicate the 'external' IP address used to call into the cluster
 #
-CLUSTER_IP=$(kubectl get svc/ingress-nginx-controller -n ingress-nginx -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
+CLUSTER_IP=$(kubectl -n kong get svc kong-kong-proxy -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
 echo "The cluster's external IP address is $CLUSTER_IP ..."

@@ -73,5 +73,3 @@ if [ $? -ne 0 ]; then
   echo '*** Problem encountered deploying troubleshooting tools'
   exit 1
 fi
-kubectl -n deployed rollout status daemonset/network-multitool
-echo 'Base cluster setup completed successfully ...'
