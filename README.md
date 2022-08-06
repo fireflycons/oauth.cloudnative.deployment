@@ -117,7 +117,6 @@ kubectl get pods -o wide -n deployed
 NAME                           READY   STATUS    RESTARTS   AGE   IP           NODE
 finalapi-77b44bf64-gh646       1/1     Running   0          86s   10.244.1.6   oauth-worker
 finalapi-77b44bf64-kqnql       1/1     Running   0          86s   10.244.2.7   oauth-worker2
-kong-proxy-57d5fcd47f-6blc4    1/1     Running   0          83s   10.244.1.8   oauth-worker
 network-multitool-9zmcx        1/1     Running   0          13m   10.244.2.3   oauth-worker2
 network-multitool-mf5mn        1/1     Running   0          13m   10.244.1.3   oauth-worker
 oauthagent-9fc86d5cc-lhqrs     1/1     Running   0          84s   10.244.1.7   oauth-worker
