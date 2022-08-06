@@ -71,5 +71,5 @@ sleep 60
 #
 # Indicate the 'external' IP address used to call into the cluster
 #
-CLUSTER_IP=$(kubectl -n kong get svc kong-kong-proxy -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
+CLUSTER_IP=$(kubectl -n kong get svc kong-proxy -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
 echo "The cluster's external IP address is $CLUSTER_IP ..."
