@@ -53,15 +53,11 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Install the Kong open source ingress controller in a stateless setup
+# Install a customized Kong ingress controller
 #
-echo 'Installing ingress resources ...'
-helm repo add kong https://charts.konghq.com 1>/dev/null
-helm repo update
-helm uninstall kong --namespace kong 2>/dev/null
-helm install kong kong/kong --values ../kong/helm-values.yaml --namespace kong --create-namespace
+../kong/install-kong.sh
 if [ $? -ne 0 ]; then
-  echo '*** Problem encountered installing ingress resources'
+  echo '*** Problem encountered installing Kong ingress'
   exit 1
 fi
 

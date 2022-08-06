@@ -4,7 +4,7 @@
 #
 
 image:
-  repository: kong
+  repository: custom_kong
   tag: 2.8.1-alpine
 
 proxy:
@@ -25,9 +25,13 @@ admin:
   tls:
     parameters: []
 
+#
+# Allow larger than the default 4KB headers to enable cookies containing AWS Cognito JWTs to be received
+# Also enable the oauth-proxy plugin, so that it processes cookies from the SPA and forwards JWTs to the API
+#
 env:
   database: 'off'
   nginx_proxy_proxy_buffer_size: '16k'
   nginx_proxy_proxy_buffers: '8 16k'
   nginx_proxy_large_client_header_buffers: '8 16k'
-  #plugins: 'bundled' 
+  plugins: 'bundled,oauth-proxy'
