@@ -1,5 +1,6 @@
 #
-# Customized values for the Kong ingress controller
+# Customized values for the Kong ingress controller, from the base file here
+# https://github.com/Kong/charts/blob/main/charts/kong/values.yaml
 #
 
 image:
@@ -29,5 +30,4 @@ env:
   nginx_proxy_proxy_buffer_size: '16k'
   nginx_proxy_proxy_buffers: '8 16k'
   nginx_proxy_large_client_header_buffers: '8 16k'
-  #LOG_LEVEL: 'error'
-  #plugins: 'bundled,oauth-proxy' 
+  #plugins: 'bundled' 

@@ -53,13 +53,13 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Install the Kong open source ingress controller with no database dependencies, and without any patches
+# Install the Kong open source ingress controller in a stateless setup
 #
 echo 'Installing ingress resources ...'
 helm repo add kong https://charts.konghq.com 1>/dev/null
 helm repo update
 helm uninstall kong --namespace kong 2>/dev/null
-helm install kong kong/kong --values kong-helm-values.yaml --namespace kong --create-namespace
+helm install kong kong/kong --values ../kong/helm-values.yaml --namespace kong --create-namespace
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered installing ingress resources'
   exit 1
@@ -68,7 +68,10 @@ fi
 #
 # Wait for the Ingress resources to be created
 #
-sleep 60
+kubectl wait --namespace kong \
+--for=condition=ready pod \
+--selector=app.kubernetes.io/component=app \
+--timeout=300s
 
 #
 # Indicate the 'external' IP address used to call into the cluster
