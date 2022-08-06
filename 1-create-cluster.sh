@@ -20,13 +20,11 @@ case "$(uname -s)" in
 	;;
 
   Darwin)
-    PLATFORM='macos'
     CLUSTER_FILE_PATH='./base/mac-windows/cluster.yaml'
     INGRESS_SCRIPT_PATH='./base/mac-windows/install-ingress.sh'
  	;;
 
   MINGW64*)
-    PLATFORM='windows'
     CLUSTER_FILE_PATH='./base/mac-windows/cluster.yaml'
     INGRESS_SCRIPT_PATH='./base/mac-windows/install-ingress.sh'
 	;;
