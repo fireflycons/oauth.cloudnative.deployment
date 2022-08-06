@@ -4,7 +4,7 @@
 
 image:
   repository: kong
-  tag: "2.8.1-alpine"
+  tag: 2.8.1-alpine
 
 proxy:
   enabled: true

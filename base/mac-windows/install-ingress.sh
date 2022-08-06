@@ -25,7 +25,7 @@ fi
 # Apply KIND specific patches, so that extraPortMappings allow the host computer to call the Ingress directly
 # https://kind.sigs.k8s.io/docs/user/ingress/
 #
-kubectl patch deployment -n kong ingress-kong --patch-file ../kong-kind-patches.json
+kubectl patch deployment -n kong ingress-kong --patch-file ./kong-kind-patches.json
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered applying KIND specific patches for the ingress controller'
   exit 1
