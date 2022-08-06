@@ -1,0 +1,33 @@
+#
+# Customized values for the Kong ingress controller
+#
+
+image:
+  repository: kong
+  tag: "2.8.1-alpine"
+
+proxy:
+  enabled: true
+  type: LoadBalancer
+
+ingressController:
+  enabled: true
+  installCRDs: false
+  ingressClass: kong
+  ingressClassAnnotations: {}
+  rbac:
+    create: true
+
+# Temporary workaround: disable HTTP2 on admin endpoint
+# https://github.com/Kong/kubernetes-ingress-controller/issues/2435
+admin:
+  tls:
+    parameters: []
+
+env:
+  database: 'off'
+  nginx_proxy_proxy_buffer_size: '16k'
+  nginx_proxy_proxy_buffers: '8 16k'
+  nginx_proxy_large_client_header_buffers: '8 16k'
+  #LOG_LEVEL: 'error'
+  #plugins: 'bundled,oauth-proxy' 

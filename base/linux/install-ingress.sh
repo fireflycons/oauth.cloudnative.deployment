@@ -56,8 +56,10 @@ fi
 # Install the Kong open source ingress controller with no database dependencies, and without any patches
 #
 echo 'Installing ingress resources ...'
-kubectl delete -f https://raw.githubusercontent.com/Kong/kubernetes-ingress-controller/master/deploy/single/all-in-one-dbless.yaml 2>/dev/null
-kubectl apply  -f https://raw.githubusercontent.com/Kong/kubernetes-ingress-controller/master/deploy/single/all-in-one-dbless.yaml
+helm repo add kong https://charts.konghq.com 1>/dev/null
+helm repo update
+helm uninstall kong --namespace kong 2>/dev/null
+helm install kong kong/kong --values kong-helm-values.yaml --namespace kong --create-namespace
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered installing ingress resources'
   exit 1
@@ -71,5 +73,5 @@ sleep 60
 #
 # Indicate the 'external' IP address used to call into the cluster
 #
-CLUSTER_IP=$(kubectl -n kong get svc kong-proxy -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
+CLUSTER_IP=$(kubectl -n kong get svc kong-kong-proxy -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
 echo "The cluster's external IP address is $CLUSTER_IP ..."
