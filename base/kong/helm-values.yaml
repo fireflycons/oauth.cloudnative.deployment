@@ -13,15 +13,14 @@ proxy:
 
 ingressController:
   enabled: true
-  installCRDs: false
   ingressClass: kong
-  ingressClassAnnotations: {}
-  rbac:
-    create: true
+  installCRDs: false
 
-# Temporary workaround: disable HTTP2 on admin endpoint
-# https://github.com/Kong/kubernetes-ingress-controller/issues/2435
 admin:
+  enabled: false
+  
+  # This prevents lots of errors being reported in the kong proxy logs
+  # https://github.com/Kong/kubernetes-ingress-controller/issues/2435
   tls:
     parameters: []
 
