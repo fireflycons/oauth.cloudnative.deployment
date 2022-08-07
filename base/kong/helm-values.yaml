@@ -26,7 +26,7 @@ admin:
 
 #
 # Allow larger than the default 4KB headers to enable cookies containing AWS Cognito JWTs to be received
-# Also enable the oauth-proxy plugin, so that it processes cookies from the SPA and forwards JWTs to the API
+# Also enable the oauth-proxy plugin, which will be configured on SPA routes, to forwards JWTs to the API
 #
 env:
   database: 'off'
