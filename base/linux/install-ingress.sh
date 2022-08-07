@@ -64,6 +64,7 @@ fi
 #
 # Wait for the Ingress resources to be created
 #
+echo 'Waiting for the ingress controller endpoints to come up ...'
 kubectl wait --namespace kong \
 --for=condition=ready pod \
 --selector=app.kubernetes.io/component=app \
