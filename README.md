@@ -17,10 +17,14 @@ The ingress controller receives HTTPS requests for multiple host names and route
 
 ## Prerequisites
 
+Install these tools:
+
 - A Docker Engine such as [Docker Desktop](https://www.docker.com/products/docker-desktop)
-- [Kubernetes in Docker](https://kind.sigs.k8s.io/docs/user/quick-start/)
+- [Kubernetes in Docker (KIND)](https://kind.sigs.k8s.io/docs/user/quick-start/)
 - [openssl](https://www.openssl.org/)
 - [jq](https://github.com/stedolan/jq)
+
+Also ensure that no firewall software on the host computer will prevent outbound calls to AWS endpoints.
 
 ## Deploy the System
 
