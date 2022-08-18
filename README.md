@@ -14,8 +14,8 @@ The ingress controller receives HTTPS requests for multiple host names and route
 | APIs | https://api.mycluster.com |
 | Token Handler | https://tokenhandler.mycluster.com |
 | Web Host | https://web.mycluster.com |
-| Kubernetes Dashboard | https://dashboard.mycluster.com |
 | Elasticsearch Logs | https://logs.mycluster.com |
+| Kubernetes Dashboard | https://dashboard.mycluster.com |
 
 ## Prerequisites
 
@@ -78,7 +78,7 @@ The cluster's external IP address is 127.0.0.1 ...
 Add it to the hosts file on the local computer, configured against public URLs:
 
 ```text
-127.0.0.1 web.mycluster.com api.mycluster.com tokenhandler.mycluster.com logs.mycluster.com
+127.0.0.1 web.mycluster.com api.mycluster.com tokenhandler.mycluster.com logs.mycluster.com dashboard.mycluster.com
 ```
 
 Then trust the root certificate at `certs/mycluster.ca.pem` on the local computer.\
