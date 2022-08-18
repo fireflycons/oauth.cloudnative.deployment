@@ -23,8 +23,8 @@ Install these tools:
 
 - A Docker Engine such as [Docker Desktop](https://www.docker.com/products/docker-desktop)
 - [Kubernetes in Docker (KIND)](https://kind.sigs.k8s.io/docs/user/quick-start/)
+- [Helm](https://helm.sh/docs/intro/install/)
 - [openssl](https://www.openssl.org/)
-- [jq](https://github.com/stedolan/jq)
 
 Also ensure that no firewall software on the host computer will prevent outbound calls to AWS endpoints.
 
