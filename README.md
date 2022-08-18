@@ -9,12 +9,13 @@ This repo deploys an End-to-End SPA and API code sample to Kubernetes, to demons
 Scripts will spin up a number of components for the Final SPA, and these URLs will be callable from browsers.\
 The ingress controller receives HTTPS requests for multiple host names and routes to the appropriate services.
 
-| Component | External URL | Description |
-| --------- | ------------ | ----------- |
-| Web Host | https://web.mycluster.com/spa | A development host to serve web static content for the SPA |
-| API Gateway | https://tokenhandler.mycluster.com | An API gateway base URL for the SPA |
-| Business API | https://api.mycluster.com/api | The public base URL for APIs |
-| Log Query UI | https://logs.mycluster.com/app/dev_tools#/console | The Kibana UI used to analyze API logs |
+| Component | URL |
+| --------- | --- |
+| APIs | https://api.mycluster.com |
+| Token Handler | https://tokenhandler.mycluster.com |
+| Web Host | https://web.mycluster.com |
+| Kubernetes Dashboard | https://dashboard.mycluster.com |
+| Elasticsearch Logs | https://logs.mycluster.com |
 
 ## Prerequisites
 
