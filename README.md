@@ -2,7 +2,7 @@
 
 The second half of a **Kubernetes Local Computer Setup**, to enable real world designs and development.\
 See also the [Kubernetes Base Setup](https://github.com/gary-archer/kubernetes-base-setup), for notes on the base infrastructure.\
-An End-to-End SPA and API code sample is deployed to Kubernetes, with OAuth security and useful logging.
+An End-to-End SPA and API code sample, deployed to Kubernetes, with OAuth security and useful logging.
 
 ## External URLs
 
