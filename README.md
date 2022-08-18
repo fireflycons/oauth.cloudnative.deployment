@@ -1,8 +1,8 @@
 # Cloud Native Deployment
 
-Resources for deploying an End-to-End SPA and API code sample to Kubernetes.\
-The goal is to demonstrate a real world cluster on a development computer.\
-See also the [Kubernetes Base Setup](https://github.com/gary-archer/kubernetes-base-setup), for notes on the base infrastructure.
+The second half of a **Kubernetes Local Computer Setup**, to enable real world designs and development.\
+See also the [Kubernetes Base Setup](https://github.com/gary-archer/kubernetes-base-setup), for notes on the base infrastructure.\
+This repo deploys an End-to-End SPA and API code sample to Kubernetes, to demonstrate OAuth security and useful logging.
 
 ## External URLs
 
