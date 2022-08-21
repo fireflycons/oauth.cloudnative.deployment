@@ -73,7 +73,7 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Build token handler components
+# Build token handler resources
 #
 rm -rf tokenhandler 2>/dev/null
 git clone https://github.com/gary-archer/oauth.tokenhandler.docker tokenhandler

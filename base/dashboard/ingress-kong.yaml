@@ -1,0 +1,24 @@
+#
+# An initial Kong ingress to the Kubernetes dashboard
+#
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: dashboard-ingress
+spec:
+  ingressClassName: kong
+  tls:
+    - hosts:
+        - dashboard.mycluster.com
+      secretName: mycluster-com-tls
+  rules:
+    - host: dashboard.mycluster.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kubernetes-dashboard
+                port:
+                  number: 443

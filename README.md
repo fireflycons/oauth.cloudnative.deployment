@@ -30,40 +30,34 @@ Also ensure that no firewall software on the host computer will prevent outbound
 
 ## Deploy the System
 
-First create the cluster:
+First create the cluster's base infrastructure:
 
 ```bash
 ./1-create-cluster.sh
 ```
 
-Then create external SSL certificates and set up a Private PKI for inside the cluster:
-
-```bash
-./2-create-certs.sh
-```
-
 Then build apps into Docker containers:
 
 ```bash
-./3-build.sh
+./2-build.sh
 ```
 
 Then deploy apps to the Kubernetes cluster:
 
 ```bash
-./4-deploy.sh
+./3-deploy.sh
 ```
 
 Optionally deploy Elastic Stack components in order to use end-to-end API logging:
 
 ```bash
-./5-deploy-elasticstack.sh
+./4-deploy-elasticstack.sh
 ```
 
 Later you can free all resources when required via this script:
 
 ```bash
-./6-teardown.sh
+./5-teardown.sh
 ```
 
 ## Enable Development URLs
@@ -75,7 +69,7 @@ This will be the loopack URL on macOS and Windows, or a load balancer assigned I
 The cluster's external IP address is 127.0.0.1 ...
 ```
 
-Add it to the hosts file on the local computer, configured against public URLs:
+Add it to the hosts file on the local computer, mapped to these external URLs:
 
 ```text
 127.0.0.1 web.mycluster.com api.mycluster.com tokenhandler.mycluster.com logs.mycluster.com dashboard.mycluster.com

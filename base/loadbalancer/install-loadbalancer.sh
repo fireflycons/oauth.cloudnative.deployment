@@ -1,8 +1,8 @@
 #!/bin/bash
 
-################################################################################################
-# Install ingress for a Linux host, where we can simulate a cloud platform and its load balancer
-################################################################################################
+##############################################################################
+# Install a software load balancer to enable the use odf external IP addresses
+##############################################################################
 
 #
 # Ensure that we are in the folder containing this script
@@ -33,6 +33,9 @@ METALLB_IP_RANGE="${METALLB_IP_START}-${METALLB_IP_END}"
 
 #
 # Update the MetalLB configuration
+# envsubst is installed via 'brew install gettext' on macOS
+# On Windows an executable can be downloaded from here:
+# - https://github.com/a8m/envsubst/releases/download/v1.2.0/envsubst.exe
 #
 echo 'Configuring the load balancer IP address range ...'
 export METALLB_IP_RANGE
@@ -53,25 +56,11 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Install a customized Kong ingress controller
+# Wait for the load balancer to become available
 #
-../kong/install-kong.sh
-if [ $? -ne 0 ]; then
-  echo '*** Problem encountered installing Kong ingress'
-  exit 1
-fi
-
-#
-# Wait for the Ingress resources to be created
-#
-echo 'Waiting for the ingress controller endpoints to come up ...'
-kubectl wait --namespace kong \
---for=condition=ready pod \
---selector=app.kubernetes.io/component=app \
---timeout=300s
-
-#
-# Indicate the 'external' IP address used to call into the cluster
-#
-CLUSTER_IP=$(kubectl -n kong get svc kong-kong-proxy -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
-echo "The cluster's external IP address is $CLUSTER_IP ..."
+echo 'Waiting for the load balancer to come up ...'
+sleep 5
+kubectl wait --namespace metallb-system \
+  --for=condition=ready pod \
+  --selector=app=metallb \
+  --timeout=300s
