@@ -26,6 +26,14 @@ if [ $? -ne 0 ]; then
 fi
 
 #
+# Set up certificate related resources
+#
+./base/certmanager/install-certs.sh
+if [ $? -ne 0 ]; then
+  exit 1
+fi
+
+#
 # On Linux, deploy a load balancer, to enable external IP addresses
 #
 if [ "$(uname -s)" == 'Linux' ]; then
@@ -40,14 +48,6 @@ fi
 # Install the Kong ingress controller
 #
 ./base/kong/install-ingress.sh
-if [ $? -ne 0 ]; then
-  exit 1
-fi
-
-#
-# Set up certificate related resources
-#
-./base/certmanager/install-certs.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi
