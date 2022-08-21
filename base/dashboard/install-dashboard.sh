@@ -10,16 +10,6 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 #
-# Create secrets for the root CA for ingress external https URLs
-#
-kubectl -n kubernetes-dashboard delete secret mycluster-com-tls 2>/dev/null
-kubectl -n kubernetes-dashboard create secret tls mycluster-com-tls --cert=../../certs/mycluster.ssl.pem --key=../../certs/mycluster.ssl.key
-if [ $? -ne 0 ]; then
-  echo '*** Problem creating ingress SSL wildcard secret for the deployed namespace'
-  exit 1
-fi
-
-#
 # Install the dashboard using the Helm chart
 #
 echo 'Installing the Kubernetes dashboard ...'
@@ -33,7 +23,27 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Expose it via an Ingress
+# Wait for the dashboard to come up
+#
+echo 'Waiting for the Kubernetes dashboard to come up ...'
+sleep 5
+kubectl wait --namespace kubernetes-dashboard \
+  --for=condition=ready pod \
+  --selector=app.kubernetes.io/component=kubernetes-dashboard \
+  --timeout=300s
+
+#
+# Create a secret for the root CA for ingress external https URLs
+#
+kubectl -n kubernetes-dashboard delete secret mycluster-com-tls 2>/dev/null
+kubectl -n kubernetes-dashboard create secret tls mycluster-com-tls --cert=../../certs/mycluster.ssl.pem --key=../../certs/mycluster.ssl.key
+if [ $? -ne 0 ]; then
+  echo '*** Problem creating ingress SSL wildcard secret for the deployed namespace'
+  exit 1
+fi
+
+#
+# Expose the dashboard via an Ingress
 #
 echo 'Creating an ingress for the Kubernetes dashboard ...'
 kubectl -n kubernetes-dashboard delete -f ingress-kong.yaml 2>/dev/null
@@ -46,18 +56,3 @@ echo 'Granting default access to the Kubernetes dashboard ...'
 kubectl delete -f adminaccess.yaml 2>/dev/null
 kubectl apply  -f adminaccess.yaml
 
-#
-# Wait for the dashboard to come up
-#
-echo 'Waiting for the Kubernetes dashboard to come up ...'
-sleep 5
-kubectl wait --namespace kubernetes-dashboard \
-  --for=condition=ready pod \
-  --selector=app.kubernetes.io/component=kubernetes-dashboard \
-  --timeout=300s
-
-#
-# Patch the service for the kubernetes dashboard to use the Kong https protocol annotation
-# This prevents the ingress from attempting to use HTTP
-#
-kubectl patch service -n kubernetes-dashboard kubernetes-dashboard -p '{"metadata":{"annotations": {"konghq.com/protocol":"https"}}}'

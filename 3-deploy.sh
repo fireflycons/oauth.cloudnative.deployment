@@ -20,7 +20,7 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Create secrets for the root CA for ingress external https URLs
+# Create a secret for the root CA for ingress external https URLs
 #
 kubectl -n deployed delete secret mycluster-com-tls 2>/dev/null
 kubectl -n deployed create secret tls mycluster-com-tls --cert=./certs/mycluster.ssl.pem --key=./certs/mycluster.ssl.key

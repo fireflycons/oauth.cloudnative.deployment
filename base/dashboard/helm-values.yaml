@@ -155,8 +155,10 @@ service:
   ## A user-specified IP address for load balancer to use as External IP (if supported)
   # loadBalancerIP:
 
+  # CUSTOM: Add the annotation that the Kong Ingress controller requires in order to call the service using HTTPS
   ## Additional Kubernetes Dashboard Service annotations
-  annotations: {}
+  annotations:
+    konghq.com/protocol: https
 
   ## Here labels can be added to the Kubernetes Dashboard service
   labels: {}
