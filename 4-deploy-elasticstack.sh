@@ -59,6 +59,14 @@ if [ $? -ne 0 ]; then
 fi
 
 #
+# Run a small build to create a utility Docker container used by the init job
+#
+./elasticstack/deployment/kubernetes-local/build.sh
+if [ $? -ne 0 ]; then
+  exit 1
+fi
+
+#
 # Run the deployment of Elastic Stack components
 #
 ./elasticstack/deployment/kubernetes-local/deploy.sh
