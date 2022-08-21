@@ -12,7 +12,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 #
 # First create the namespace
 #
-kubectl delete namespace elasticstack
+kubectl delete namespace elasticstack 2>/dev/null
 kubectl create namespace elasticstack
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the elasticstack namespace'

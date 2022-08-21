@@ -12,7 +12,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 #
 # First create the namespace
 #
-kubectl delete namespace deployed
+kubectl delete namespace deployed 2>/dev/null
 kubectl create namespace deployed
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the deployed namespace'

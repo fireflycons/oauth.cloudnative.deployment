@@ -15,7 +15,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 #
 echo 'Creating the Kubernetes cluster ...'
 kind delete cluster --name=oauth 2>/dev/null
-if [ "$(uname -s)" == 'linux' ]; then
+if [ "$(uname -s)" == 'Linux' ]; then
   kind create cluster --name=oauth --config='./base/cluster/cluster-loadbalancer.yaml'
 else
   kind create cluster --name=oauth --config='./base/cluster/cluster-extraportmappings.yaml'
@@ -28,7 +28,7 @@ fi
 #
 # On Linux, deploy a load balancer, to enable external IP addresses
 #
-if [ "$(uname -s)" == 'linux' ]; then
+if [ "$(uname -s)" == 'Linux' ]; then
 
   ./base/loadbalancer/install-loadbalancer.sh
   if [ $? -ne 0 ]; then

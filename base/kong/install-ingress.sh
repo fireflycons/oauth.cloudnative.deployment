@@ -46,7 +46,7 @@ fi
 # This relies on port 443 being included in extraPortMappings in the cluster.yaml file
 # https://kind.sigs.k8s.io/docs/user/ingress/
 #
-if [ "$(uname -s)" != 'linux' ]; then
+if [ "$(uname -s)" != 'Linux' ]; then
 
   echo 'Enabling the host computer to access the Kong ingress ...'
   kubectl patch service    -n kong kong-kong-proxy -p '{"spec":{"type":"NodePort"}}'
