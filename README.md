@@ -26,7 +26,10 @@ Install these tools:
 - [Helm](https://helm.sh/docs/intro/install/)
 - [openssl](https://www.openssl.org/)
 
-Also ensure that no firewall software on the host computer will prevent outbound calls to AWS endpoints.
+On Windows I also needed to ensure that Google's DNS server is used against the internet connection.\
+This prevents problems resolving AWS URLs from inside the cluster once the installation is complete.
+
+![Windows DNS](./images/dns.png)
 
 ## Deploy the System
 
