@@ -26,7 +26,7 @@ Install these tools:
 - [Helm](https://helm.sh/docs/intro/install/)
 - [openssl](https://www.openssl.org/)
 
-On Windows I also needed to ensure that Google's DNS server is used against the internet connection.\
+On Windows I also needed to ensure that Google's DNS server is configured against the internet connection.\
 This prevents problems resolving AWS URLs from inside the cluster once the installation is complete.
 
 ![Windows DNS](./images/dns.png)
