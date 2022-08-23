@@ -88,7 +88,7 @@ Then sign in to the Single Page Application with these details:
 | Field | Value |
 | ----- | ----- |
 | SPA URL | https://web.mycluster.com/spa |
-| User Name | guestuser@mycluster.com |
+| User Name | guestuser@mycompany.com |
 | User Password | GuestPassword1 |
 
 To [Query API Logs](https://authguidance.com/2019/08/02/intelligent-api-platform-analysis/), sign into Kibana with these details:
