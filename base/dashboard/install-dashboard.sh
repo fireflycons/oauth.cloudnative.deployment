@@ -38,7 +38,7 @@ kubectl wait --namespace kubernetes-dashboard \
 kubectl -n kubernetes-dashboard delete secret mycluster-com-tls 2>/dev/null
 kubectl -n kubernetes-dashboard create secret tls mycluster-com-tls --cert=../../certs/mycluster.ssl.pem --key=../../certs/mycluster.ssl.key
 if [ $? -ne 0 ]; then
-  echo '*** Problem creating ingress SSL wildcard secret for the deployed namespace'
+  echo '*** Problem creating ingress SSL wildcard secret for the kubernetes-dashboard namespace'
   exit 1
 fi
 

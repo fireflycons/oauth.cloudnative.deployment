@@ -112,10 +112,10 @@ oauth-worker          Ready    <none>                 15m   v1.24.0   172.29.0.2
 oauth-worker2         Ready    <none>                 15m   v1.24.0   172.29.0.3
 ```
 
-The worker nodes host application containers within a `deployed` namespace:
+The worker nodes host application containers within an `applications` namespace:
 
 ```text
-kubectl get pods -o wide -n deployed
+kubectl get pods -o wide -n applications
 
 NAME                           READY   STATUS    RESTARTS   AGE   IP           NODE
 finalapi-77b44bf64-gh646       1/1     Running   0          86s   10.244.1.6   oauth-worker

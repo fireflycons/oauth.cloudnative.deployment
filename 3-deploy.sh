@@ -12,39 +12,39 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 #
 # First create the namespace
 #
-kubectl delete namespace deployed 2>/dev/null
-kubectl create namespace deployed
+kubectl delete namespace applications 2>/dev/null
+kubectl create namespace applications
 if [ $? -ne 0 ]; then
-  echo '*** Problem encountered creating the deployed namespace'
+  echo '*** Problem encountered creating the applications namespace'
   exit 1
 fi
 
 #
 # Create a secret for the root CA for ingress external https URLs
 #
-kubectl -n deployed delete secret mycluster-com-tls 2>/dev/null
-kubectl -n deployed create secret tls mycluster-com-tls --cert=./certs/mycluster.ssl.pem --key=./certs/mycluster.ssl.key
+kubectl -n applications delete secret mycluster-com-tls 2>/dev/null
+kubectl -n applications create secret tls mycluster-com-tls --cert=./certs/mycluster.ssl.pem --key=./certs/mycluster.ssl.key
 if [ $? -ne 0 ]; then
-  echo '*** Problem creating ingress SSL wildcard secret for the deployed namespace'
+  echo '*** Problem creating ingress SSL wildcard secret for the applications namespace'
   exit 1
 fi
 
 #
 # Create a secret for the root CA for cluster internal https URLs
 #
-kubectl -n deployed delete secret default-svc-cluster-local 2>/dev/null
-kubectl -n deployed create secret tls default-svc-cluster-local --cert=./certs/default.svc.cluster.local.ca.pem --key=./certs/default.svc.cluster.local.ca.key
+kubectl -n applications delete secret default-svc-cluster-local 2>/dev/null
+kubectl -n applications create secret tls default-svc-cluster-local --cert=./certs/default.svc.cluster.local.ca.pem --key=./certs/default.svc.cluster.local.ca.key
 if [ $? -ne 0 ]; then
-  echo '*** Problem creating deploying a secret for internal SSL Root Authority to the deployed namespace ***'
+  echo '*** Problem creating deploying a secret for internal SSL Root Authority to the applications namespace ***'
   exit 1
 fi
 
 #
 # Create the cluster issuer for this namespace
 #
-kubectl -n deployed apply -f ./base/certmanager/clusterIssuer.yaml
+kubectl -n applications apply -f ./base/certmanager/clusterIssuer.yaml
 if [ $? -ne 0 ]; then
-  echo '*** Problem deploying the cluster issuer to the deployed namespace'
+  echo '*** Problem deploying the cluster issuer to the applications namespace'
   exit 1
 fi
 
