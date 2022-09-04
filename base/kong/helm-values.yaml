@@ -30,7 +30,12 @@ admin:
 #
 env:
   database: 'off'
+  ssl_cert: '/etc/secrets/mycluster-com-tls/tls.crt'
+  ssl_cert_key: '/etc/secrets/mycluster-com-tls/tls.key'
   nginx_proxy_proxy_buffer_size: '16k'
   nginx_proxy_proxy_buffers: '8 16k'
   nginx_proxy_large_client_header_buffers: '8 16k'
   plugins: 'bundled,oauth-proxy'
+
+secretVolumes:
+- mycluster-com-tls

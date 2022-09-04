@@ -20,16 +20,6 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Create a secret for the root CA for ingress external https URLs
-#
-kubectl -n applications delete secret mycluster-com-tls 2>/dev/null
-kubectl -n applications create secret tls mycluster-com-tls --cert=./certs/mycluster.ssl.pem --key=./certs/mycluster.ssl.key
-if [ $? -ne 0 ]; then
-  echo '*** Problem creating ingress SSL wildcard secret for the applications namespace'
-  exit 1
-fi
-
-#
 # Create a secret for the root CA for cluster internal https URLs
 #
 kubectl -n applications delete secret default-svc-cluster-local 2>/dev/null

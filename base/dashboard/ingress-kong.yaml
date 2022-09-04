@@ -10,7 +10,6 @@ spec:
   tls:
     - hosts:
         - dashboard.mycluster.com
-      secretName: mycluster-com-tls
   rules:
     - host: dashboard.mycluster.com
       http:

@@ -29,13 +29,33 @@ if [ $? -ne 0 ]; then
 fi
 
 #
+# First create the namespace
+#
+kubectl delete namespace kong 2>/dev/null
+kubectl create namespace kong
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered creating the kong namespace'
+  exit 1
+fi
+
+#
+# Create a secret for external URLs
+#
+kubectl -n kong delete secret mycluster-com-tls 2>/dev/null
+kubectl -n kong create secret tls mycluster-com-tls --cert=../../certs/mycluster.ssl.pem --key=../../certs/mycluster.ssl.key
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered creating the ingress certificate secret'
+  exit 1
+fi
+
+#
 # Install the Kong open source ingress controller in a stateless setup
 #
 echo 'Installing ingress resources ...'
 helm repo add kong https://charts.konghq.com 1>/dev/null
 helm repo update
 helm uninstall kong --namespace kong 2>/dev/null
-helm install kong kong/kong --values ./helm-values.yaml --namespace kong --create-namespace
+helm install kong kong/kong --values ./helm-values.yaml --namespace kong
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered installing ingress resources'
   exit 1
