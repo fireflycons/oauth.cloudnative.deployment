@@ -1,4 +1,4 @@
-# OAuth Cloud Native Deployment
+# OAuth Cloud Native Local
 
 The second half of a **Kubernetes Local Computer Setup**, to enable real world designs and development.\
 See also the [Cloud Native Base Setup](https://github.com/gary-archer/oauth.cloudnative.base), for notes on the base infrastructure.\
