@@ -16,17 +16,19 @@ ingressController:
   ingressClass: kong
   installCRDs: false
 
+# The TLS setting prevents lots of errors being output in the kong proxy logs
+# https://github.com/Kong/kubernetes-ingress-controller/issues/2435
 admin:
   enabled: false
-  
-  # This prevents lots of errors being reported in the kong proxy logs
-  # https://github.com/Kong/kubernetes-ingress-controller/issues/2435
   tls:
     parameters: []
 
+secretVolumes:
+  - mycluster-com-tls
+
 #
 # Allow larger than the default 4KB headers to enable cookies containing AWS Cognito JWTs to be received
-# Also enable the oauth-proxy plugin, which will be configured on SPA routes, to forwards JWTs to the API
+# Also enable the oauth-proxy plugin, which will be configured on SPA routes, to forward JWTs to the API
 #
 env:
   database: 'off'
@@ -36,6 +38,3 @@ env:
   nginx_proxy_proxy_buffers: '8 16k'
   nginx_proxy_large_client_header_buffers: '8 16k'
   plugins: 'bundled,oauth-proxy'
-
-secretVolumes:
-- mycluster-com-tls
