@@ -25,6 +25,7 @@ Install these tools:
 - [Kubernetes in Docker (KIND)](https://kind.sigs.k8s.io/docs/user/quick-start/)
 - [Helm](https://helm.sh/docs/intro/install/)
 - [openssl](https://www.openssl.org/)
+- [envsubst](https://github.com/a8m/envsubst)
 
 When using a Windows host I also needed to ensure that Google's DNS server was configured against the internet connection.\
 This prevents problems resolving AWS URLs from inside the cluster once the installation is complete.
