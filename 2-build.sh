@@ -24,14 +24,21 @@ fi
 #
 # Build Web Host and SPA resources
 #
-#rm -rf finalspa 2>/dev/null
-#git clone https://github.com/gary-archer/oauth.websample.final finalspa
+rm -rf finalspa 2>/dev/null
+git clone https://github.com/gary-archer/oauth.websample.final finalspa
 if [ $? -ne 0 ]; then
   echo '*** Final SPA download problem encountered'
   exit 1
 fi
 
-#./finalspa/deployment/kubernetes-local/build.sh
+#
+# TODO: delete after merge
+#
+cd finalapi
+git checkout feature/aws
+cd ..
+
+./finalspa/deployment/kubernetes-local/build.sh
 if [ $? -ne 0 ]; then
   echo '*** Final SPA build problem encountered'
   exit 1
@@ -78,7 +85,6 @@ if [ $? -ne 0 ]; then
   echo '*** Final API build problem encountered'
   exit 1
 fi
-exit
 
 #
 # Build token handler resources
@@ -89,6 +95,13 @@ if [ $? -ne 0 ]; then
   echo '*** Token handler download problem encountered'
   exit 1
 fi
+
+#
+# TODO: delete after merge
+#
+cd tokenhandler
+git checkout feature/aws
+cd ..
 
 ./tokenhandler/deployment/kubernetes-local/build.sh
 if [ $? -ne 0 ]; then

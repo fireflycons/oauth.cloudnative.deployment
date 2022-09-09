@@ -41,7 +41,7 @@ fi
 #
 # Deploy web host and SPA resources
 #
-#./finalspa/deployment/kubernetes-local/deploy.sh
+./finalspa/deployment/kubernetes-local/deploy.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi
@@ -57,7 +57,7 @@ fi
 #
 # Deploy token handler components
 #
-#./tokenhandler/deployment/kubernetes-local/deploy.sh
+./tokenhandler/deployment/kubernetes-local/deploy.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi
