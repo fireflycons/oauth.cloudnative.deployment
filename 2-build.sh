@@ -31,13 +31,6 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-#
-# TODO: delete after merge
-#
-cd finalapi
-git checkout feature/aws
-cd ..
-
 ./finalspa/deployment/kubernetes-local/build.sh
 if [ $? -ne 0 ]; then
   echo '*** Final SPA build problem encountered'
@@ -73,13 +66,6 @@ elif [ "$API_TECH" == 'java' ]; then
   fi
 fi
 
-#
-# TODO: delete after merge
-#
-cd finalapi
-git checkout feature/aws
-cd ..
-
 ./finalapi/deployment/kubernetes-local/build.sh
 if [ $? -ne 0 ]; then
   echo '*** Final API build problem encountered'
@@ -95,13 +81,6 @@ if [ $? -ne 0 ]; then
   echo '*** Token handler download problem encountered'
   exit 1
 fi
-
-#
-# TODO: delete after merge
-#
-cd tokenhandler
-git checkout feature/aws
-cd ..
 
 ./tokenhandler/deployment/kubernetes-local/build.sh
 if [ $? -ne 0 ]; then
