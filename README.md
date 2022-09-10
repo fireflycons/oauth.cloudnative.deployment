@@ -1,21 +1,23 @@
 # OAuth Cloud Native Local
 
-The second half of a **Kubernetes Local Computer Setup**, to enable real world designs and development.\
-See also the [OAuth Cloud Native Base Setup](https://github.com/gary-archer/oauth.cloudnative.base), for notes on the base infrastructure.\
-An End-to-End SPA and API code sample is deployed to Kubernetes, with OAuth security and useful logging.
+The second repository in a series, referenced in my blog at https://authguidance.com:
 
-## External URLs
+| Repository | Role |
+| ---------- | ---- |
+| [oauth.cloudnative.base](https://github.com/gary-archer/oauth.cloudnative.base) | An initial infrastructure setup on a development computer |
+| oauth.cloudnative.local | An end-to-end infrastructure and application setup on a development computer |
+| [oauth.cloudnative.aws](https://github.com/gary-archer/oauth.cloudnative.aws) | An end-to-end infrastructure and application setup in the AWS cloud |
 
-Scripts will spin up a number of components for the Final SPA, and these URLs will be callable from browsers.\
-The ingress controller receives HTTPS requests for multiple host names and routes to the appropriate services.
+## Architecture
 
-| Component | URL |
-| --------- | --- |
-| APIs | https://api.mycluster.com |
-| Token Handler | https://tokenhandler.mycluster.com |
-| Web Host | https://web.mycluster.com |
-| Elasticsearch Logs | https://logs.mycluster.com |
-| Kubernetes Dashboard | https://dashboard.mycluster.com |
+My code samples and best of breed third party components are deployed, and accessed over these URLs:
+
+| Component | URL | Description |
+| --------- | --- | ----------- |
+| Web Host | https://web.mycluster.com | A content delivery network that serves web static content |
+| APIs | https://api.mycluster.com | The entry point for APIs called by native apps |
+| Token Handler | https://tokenhandler.mycluster.com | The backend for frontend used by the SPA |
+| Logs | https://logs.mycluster.com | A URL for querying backend logs |
 
 ## Prerequisites
 
