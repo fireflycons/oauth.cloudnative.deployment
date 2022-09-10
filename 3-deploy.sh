@@ -50,7 +50,7 @@ fi
 #
 # Deploy the API
 #
-./finalapi/deployment/kubernetes-local/deploy.sh
+./finalapi/deployment/kubernetes/deploy.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi
