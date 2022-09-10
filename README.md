@@ -1,6 +1,6 @@
 # OAuth Cloud Native Local
 
-The second repository in a series, referenced in my blog at https://authguidance.com:
+The second repository in a set of three, focused on productive development setups:
 
 | Repository | Role |
 | ---------- | ---- |
