@@ -8,6 +8,7 @@
 # Ensure that we are in the folder containing this script
 #
 cd "$(dirname "${BASH_SOURCE[0]}")"
+export CLUSTER_TYPE='local'
 
 #
 # First create the namespace
@@ -57,7 +58,7 @@ fi
 #
 # Deploy token handler components
 #
-./tokenhandler/deployment/kubernetes-local/deploy.sh
+./tokenhandler/deployment/kubernetes/deploy.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi

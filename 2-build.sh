@@ -8,6 +8,7 @@
 # Ensure that we are in the folder containing this script
 #
 cd "$(dirname "${BASH_SOURCE[0]}")"
+export CLUSTER_TYPE='local'
 
 #
 # Default to the Node.js API
@@ -82,7 +83,7 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-./tokenhandler/deployment/kubernetes-local/build.sh
+./tokenhandler/deployment/kubernetes/build.sh
 if [ $? -ne 0 ]; then
   echo '*** Token Handler build problem encountered'
   exit 1
