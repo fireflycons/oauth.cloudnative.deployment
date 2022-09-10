@@ -67,7 +67,7 @@ elif [ "$API_TECH" == 'java' ]; then
   fi
 fi
 
-./finalapi/deployment/kubernetes-local/build.sh
+./finalapi/deployment/kubernetes/build.sh
 if [ $? -ne 0 ]; then
   echo '*** Final API build problem encountered'
   exit 1
