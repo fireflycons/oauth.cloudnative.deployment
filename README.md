@@ -1,6 +1,6 @@
 # OAuth Cloud Native Local
 
-The second repository in a set of three, focused on productive development setups:
+The second repository in the following set, focused on productive development setups:
 
 | Repository | Role |
 | ---------- | ---- |
