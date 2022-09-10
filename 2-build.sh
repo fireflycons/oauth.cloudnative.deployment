@@ -32,7 +32,7 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-./finalspa/deployment/kubernetes-local/build.sh
+./finalspa/deployment/kubernetes/build.sh
 if [ $? -ne 0 ]; then
   echo '*** Final SPA build problem encountered'
   exit 1
