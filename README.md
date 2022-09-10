@@ -8,6 +8,9 @@ The second repository in a series, referenced in my blog at https://authguidance
 | oauth.cloudnative.local | An end-to-end infrastructure and application setup on a development computer |
 | [oauth.cloudnative.aws](https://github.com/gary-archer/oauth.cloudnative.aws) | An end-to-end infrastructure and application setup in the AWS cloud |
 
+This repo extends the base deployment to cover deployment of applications and to use SSL for all URLs.\
+It also covers some advanced behaviour, such as running Kong plugins during ingress.
+
 ## Architecture
 
 My code samples and best of breed third party components are deployed, and accessed over these URLs:
