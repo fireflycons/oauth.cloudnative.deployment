@@ -1,6 +1,6 @@
 # OAuth Cloud Native Local
 
-The second repository in a series, referenced in my blog at https://authguidance.com:
+The second repository in the following set, focused on productive development setups:
 
 | Repository | Role |
 | ---------- | ---- |
@@ -32,7 +32,7 @@ Install these tools:
 - [openssl](https://www.openssl.org/)
 - [envsubst](https://github.com/a8m/envsubst)
 
-On a Windows host I also needed to ensure that Google's DNS server was configured against the internet connection.\
+On a Windows host, ensure that Google's DNS server is configured against the internet connection.\
 This prevents problems resolving AWS URLs from inside the cluster once the installation is complete.
 
 ![Windows DNS](./images/dns.png)
