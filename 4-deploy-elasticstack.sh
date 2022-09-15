@@ -52,7 +52,7 @@ fi
 #
 # Run a small build to create a utility Docker container used by the init job
 #
-./elasticstack/deployment/kubernetes-local/build.sh
+./elasticstack/deployment/kubernetes/build.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi
@@ -60,7 +60,7 @@ fi
 #
 # Run the deployment of Elastic Stack components
 #
-./elasticstack/deployment/kubernetes-local/deploy.sh
+./elasticstack/deployment/kubernetes/deploy.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi
