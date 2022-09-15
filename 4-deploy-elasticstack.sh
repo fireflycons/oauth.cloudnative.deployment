@@ -8,6 +8,7 @@
 # Ensure that we are in the folder containing this script
 #
 cd "$(dirname "${BASH_SOURCE[0]}")"
+export CLUSTER_TYPE='local'
 
 #
 # First create the namespace
